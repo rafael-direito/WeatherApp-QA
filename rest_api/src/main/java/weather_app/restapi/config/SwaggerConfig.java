@@ -1,4 +1,4 @@
-package cloudplaces.restapi.config;
+package weather_app.restapi.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,12 +37,11 @@ public class SwaggerConfig
     private ApiInfo metaInfo()
     {
         return new ApiInfoBuilder()
-                .title("Clouplaces Rest Api")
-                .description("Clouplaces Rest Api for Public")
+                .title("WeatherApp Rest Api")
+                .description("WeatherApp Rest Api for Public")
                 .version("1.0")
                 .license("Apache License Version 2.0")
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0\"")
-                //.contact(new Contact("G103", "www.ua.pt", "g103@ua.pt"))
                 .build();
     }
 }
