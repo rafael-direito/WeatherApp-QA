@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
  * @author rd
  */
 @RestController
-@Api(value="Graphic Resources", description = "Shows graphic resources")
+@Api(value="Graphic Resources", tags = { "graphicResources" })
 public class GraphicResources 
 {
     @ApiOperation("Returns a b64 image for a specific weather type")
     @GetMapping("weather_icon/{weather_id}")
-    public String GetWeatherIcpon(@PathVariable("weather_id") final long weather_id)
+    public String getWeatherIcpon(@PathVariable("weather_id") final long weather_id)
     {return "";}
     
   
