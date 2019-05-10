@@ -9,7 +9,6 @@ package weather_app.restapi.mappings;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.ArrayList;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +23,7 @@ public class GraphicResources
 {
     @ApiOperation("Returns a b64 image for a specific weather type")
     @GetMapping("weather_icon/{weather_id}")
-    public String getWeatherIcpon(@PathVariable("weather_id") final long weather_id)
+    public String getWeatherIcon(@PathVariable("weather_id") final long weather_id)
     {return "";}
     
   
