@@ -18,22 +18,28 @@ import java.util.logging.Logger;
  */
 public class Constants
 {
+    public Constants(){};
+    
     public static final String BASE_API = "http://localhost:8081/";
+    
+    
+    public static final String buildGeneralInfoPath(String city, String numDays)
+    {return BASE_API + "general_info/" + city +"/" + numDays;}
+    
+    public static final String buildSpecificInfoPath(String city, String day)
+    {return BASE_API + "specific_info/" + city +"/" + day;}
     
     public static final String dateToDayOfWeek(String date)
     {
-        
         try {
             SimpleDateFormat format1= new SimpleDateFormat("yyyy-MM-dd");
             Date dt1=format1.parse(date);
             DateFormat format2=new SimpleDateFormat("EEEE");
-            String finalDay = format2.format(dt1);
-            return finalDay;
-        } catch (ParseException ex) {
-            Logger.getLogger(Constants.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "error";
+            return format2.format(dt1);
+        } catch (ParseException ex) {return "error";}
     }
+    
+    
     public static final String dateToString(String date)
     {
         int month = Integer.parseInt(date.split("-")[1]);
@@ -80,6 +86,8 @@ public class Constants
             case 12 :
                 monthStr="December";
                 break;
+            default: 
+                monthStr="-";
         }
         
         switch(month)

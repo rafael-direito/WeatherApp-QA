@@ -5,7 +5,6 @@
  */
 package controllers;
 
-import static application.Application.logger;
 import static application.Application.restTemplate;
 import constants.Constants;
 import forms.ForecastNumberDays;
@@ -32,9 +31,8 @@ public class GeneralForecastController {
             @RequestParam(name="numDays", required=false, defaultValue="5") String numDays,
             Model model) 
     {
-        System.out.println(Constants.dateToDayOfWeek("2019-05-13"));
         // get Forecasts
-        TreeMap<String, Map<String, String>> forecasts = restTemplate.getForObject(Constants.BASE_API + "general_info/" + city +"/" + numDays, TreeMap.class);
+        TreeMap<String, Map<String, String>> forecasts = restTemplate.getForObject(Constants.buildGeneralInfoPath(city, numDays), TreeMap.class);
         // add Atributes
         model.addAttribute("city", city);
         model.addAttribute("numDays", Integer.parseInt(numDays));
@@ -49,9 +47,7 @@ public class GeneralForecastController {
     {
         String city = forecastNumberDays.getCity();
         int numDays = forecastNumberDays.getNumDays();
-        
-        System.out.println(numDays);
-        
+                
         RedirectView rv = new RedirectView();
         rv.setContextRelative(true);
         String mUrls = "/generalForecast";
@@ -74,7 +70,7 @@ public class GeneralForecastController {
             Model model) 
     {
         // get Forecasts
-         Map<String, String> forecast = restTemplate.getForObject(Constants.BASE_API + "specific_info/" + city +"/" + day, Map.class);
+         Map<String, String> forecast = restTemplate.getForObject(Constants.buildSpecificInfoPath(city, day), Map.class);
         // add Atributes
         model.addAttribute("city", city);
         model.addAttribute("day", day);
