@@ -15,8 +15,10 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import weather_app.constants.Constants;
 import weather_app.openweather.DataType;
 import weather_app.openweather.OpenWeatherCalls;
+import static weather_app.restapi.WeatherApp.mCache;
 
 /**
  *
@@ -30,14 +32,34 @@ public class HumidityResources
     @GetMapping("humidities/day/{city}")
     public Map<String,Double> getHumidityByDay(@PathVariable("city") final String city)
     {
-        return OpenWeatherCalls.getDataByDay(city, DataType.HUMIDITY);
+        // Consult cache
+        Map<String,Double> data = null;
+        if(mCache.get(Constants.humidityDay(city)) == null)
+        {
+            data = OpenWeatherCalls.getDataByDay(city, DataType.HUMIDITY);
+            mCache.add(Constants.humidityDay(city), data, 180);
+        }
+        else
+            data = (Map<String,Double>) mCache.get(Constants.humidityDay(city));
+        
+        return data;
     }
     
     @ApiOperation("Returns a list of humidities spaced by 3 hours")
     @GetMapping("humidities/hour/{city}")
     public Map<String,Double> getHumidityByHour (@PathVariable("city") final String city)
     {
-        return OpenWeatherCalls.getDataByHour(city, DataType.HUMIDITY);
+        // Consult cache
+        Map<String,Double> data = null;
+        if(mCache.get(Constants.humidityHour(city)) == null)
+        {
+            data = OpenWeatherCalls.getDataByHour(city, DataType.HUMIDITY);
+            mCache.add(Constants.humidityHour(city), data, 180);
+        }
+        else
+            data = (Map<String,Double>) mCache.get(Constants.humidityHour(city));
+        
+        return data;
     }
     
 }

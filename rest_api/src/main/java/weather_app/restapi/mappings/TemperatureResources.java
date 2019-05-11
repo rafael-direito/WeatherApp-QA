@@ -17,9 +17,11 @@ import java.util.TreeMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import weather_app.constants.Constants;
 import weather_app.ipma.IpmaCalls;
 import weather_app.openweather.DataType;
 import weather_app.openweather.OpenWeatherCalls;
+import static weather_app.restapi.WeatherApp.mCache;
 
 /**
  *
@@ -33,7 +35,42 @@ public class TemperatureResources
     @GetMapping("temperatures/day/{city}")
     public Map<String, Double> getTemperatureByDay(@PathVariable("city") final String city)
     {
-        // get data
+        // Consult cache
+        Map<String,Double> data = null;
+        if(mCache.get(Constants.temperatureDay(city)) == null)
+        {
+            data = generateTemperatureByDay(city);
+            mCache.add(Constants.temperatureDay(city), data, 180);
+        }
+        else
+            data = (Map<String,Double>) mCache.get(Constants.temperatureDay(city));
+        
+        return data;
+          
+    }
+    
+    
+    @ApiOperation("Returns a list of temperatures spaced by 3 hours")
+    @GetMapping("temperatures/hour/{city}")
+    public Map<String, Double> getTemperatureByHour(@PathVariable("city") final String city)
+    {
+      // Consult cache
+        Map<String,Double> data = null;
+        if(mCache.get(Constants.temperatureHour(city)) == null)
+        {
+            data = OpenWeatherCalls.getDataByHour(city, DataType.TEMPERATURE);
+            mCache.add(Constants.temperatureHour(city), data, 180);
+        }
+        else
+            data = (Map<String,Double>) mCache.get(Constants.temperatureHour(city));
+        
+        return data;
+    }
+    
+    
+    private  Map<String, Double> generateTemperatureByDay(String city)
+    {
+       // get data
         Map<String, Double> ipmaInfo = IpmaCalls.getTemperatures(city);
         Map<String, Double> openWeatherInfo = OpenWeatherCalls.getDataByDay(city, DataType.TEMPERATURE);
         
@@ -60,15 +97,6 @@ public class TemperatureResources
                      avgTemp.put(d, openWeatherInfo.get(d));
                 
             return avgTemp;        
-        }  
+        } 
     }
-    
-    
-    @ApiOperation("Returns a list of temperatures spaced by 3 hours")
-    @GetMapping("temperatures/hour/{city}")
-    public Map<String, Double> getTemperatureByHour(@PathVariable("city") final String city)
-    {
-      return OpenWeatherCalls.getDataByHour(city, DataType.TEMPERATURE);
-    }
-    
 }
