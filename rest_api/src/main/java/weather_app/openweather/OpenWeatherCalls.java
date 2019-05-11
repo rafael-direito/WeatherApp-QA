@@ -21,7 +21,7 @@ import static weather_app.restapi.WeatherApp.restTemplate;
  */
 public class OpenWeatherCalls
 {
-    public static Map<String, Double> getTemperaturesByHour(String city)
+    public static Map<String, Double> getDataByHour(String city, DataType type)
     {
         Map<String, Double> openWeatherInfo = null;
         try
@@ -30,11 +30,19 @@ public class OpenWeatherCalls
             
             openWeatherInfo = new TreeMap<>();
             GeneralOpenWeather gow = restTemplate.getForObject(Constants.getOpenWeatherForecast(city), GeneralOpenWeather.class);
-            for(ListOpenWeather low : gow.getList())
-            {
-                date = low.getDtTxt();
-                openWeatherInfo.put(date, new Double(Math.round(Constants.kelvinToCelsius(low.getMain().getTemp()) * 100.00)/100.00));
-            }
+            
+            if(type == type.TEMPERATURE)
+                for(ListOpenWeather low : gow.getList())
+                {
+                    date = low.getDtTxt();
+                    openWeatherInfo.put(date, new Double(Math.round(Constants.kelvinToCelsius(low.getMain().getTemp()) * 100.00)/100.00));
+                }
+            else if(type == type.HUMIDITY)
+                for(ListOpenWeather low : gow.getList())
+                {
+                    date = low.getDtTxt();
+                    openWeatherInfo.put(date, new Double(Math.round(new Double(low.getMain().getHumidity()) * 100.00)/100.00));
+                }                
         }
         catch (Exception exception) {
             logger.error("Unable to fetch data from OpenWeather");
@@ -45,23 +53,23 @@ public class OpenWeatherCalls
     }
     
     
-    public static Map<String, Double> getTemperaturesByDay(String city)
+    public static Map<String, Double> getDataByDay(String city, DataType type)
     {
-        Map<String, Double> temperaturesByHour = getTemperaturesByHour(city);
+        Map<String, Double> dataByHour = getDataByHour(city, type);
         
-        if(temperaturesByHour==null) return null;
+        if(dataByHour==null) return null;
             
-        Map<String, List<Double>> tmp = null;
+        Map<String, List<Double>> tmp = new HashMap<>();
         String day;
         
-        for(String key : temperaturesByHour.keySet())
+        for(String key : dataByHour.keySet())
         {
             day = key.split(" ")[0];
             // if day not in map
             if(!tmp.containsKey(day))
-                tmp.put(day,new ArrayList<Double>(Arrays.asList(temperaturesByHour.get(key))));
+                tmp.put(day,new ArrayList<Double>(Arrays.asList(dataByHour.get(key))));
             //if day is already in map
-            else tmp.get(day).add(temperaturesByHour.get(key));
+            else tmp.get(day).add(dataByHour.get(key));
         }
         
         Map<String, Double> openWeatherInfo = new HashMap<>();

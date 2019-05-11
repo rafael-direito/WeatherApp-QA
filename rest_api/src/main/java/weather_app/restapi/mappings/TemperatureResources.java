@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import weather_app.ipma.IpmaCalls;
+import weather_app.openweather.DataType;
 import weather_app.openweather.OpenWeatherCalls;
 
 /**
@@ -34,7 +35,7 @@ public class TemperatureResources
     {
         // get data
         Map<String, Double> ipmaInfo = IpmaCalls.getTemperatures(city);
-        Map<String, Double> openWeatherInfo = OpenWeatherCalls.getTemperaturesByDay(city);
+        Map<String, Double> openWeatherInfo = OpenWeatherCalls.getDataByDay(city, DataType.TEMPERATURE);
         
         
         if (ipmaInfo == null && openWeatherInfo == null)
@@ -67,7 +68,7 @@ public class TemperatureResources
     @GetMapping("temperatures/hour/{city}")
     public Map<String, Double> getTemperatureByHour(@PathVariable("city") final String city)
     {
-      return OpenWeatherCalls.getTemperaturesByHour(city);
+      return OpenWeatherCalls.getDataByHour(city, DataType.TEMPERATURE);
     }
     
 }
