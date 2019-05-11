@@ -12,16 +12,12 @@ public class WeatherApp {
     
     public static final Logger logger = LoggerFactory.getLogger(WeatherApp.class);
     
-    public static RestTemplate restTemplate;
+    public static final RestTemplate restTemplate = new RestTemplate();
     
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(WeatherApp.class);
         app.setDefaultProperties(Collections.singletonMap("server.port", "8081"));
         app.run(args);
-        
-        restTemplate = new RestTemplate();
-        
-        
     }
     
 }

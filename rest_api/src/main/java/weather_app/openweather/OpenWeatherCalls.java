@@ -39,6 +39,7 @@ public class OpenWeatherCalls
         catch (Exception exception) {
             logger.error("Unable to fetch data from OpenWeather");
             logger.error(exception.toString());
+            return null;
         }
         return openWeatherInfo;
     }
@@ -47,6 +48,9 @@ public class OpenWeatherCalls
     public static Map<String, Double> getTemperaturesByDay(String city)
     {
         Map<String, Double> temperaturesByHour = getTemperaturesByHour(city);
+        
+        if(temperaturesByHour==null) return null;
+            
         Map<String, List<Double>> tmp = null;
         String day;
         

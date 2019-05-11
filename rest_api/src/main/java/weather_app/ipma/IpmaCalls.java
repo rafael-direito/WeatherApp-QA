@@ -38,6 +38,7 @@ public class IpmaCalls
         catch (Exception exception) {
             logger.error("Unable to fetch data from IPMA");
             logger.error(exception.toString());
+            return null;
         }
         
         return ipmaInfo;
