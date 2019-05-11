@@ -1,5 +1,5 @@
 
-package weather_app.data.openweather;
+package weather_app.openweather;
 
 import java.util.HashMap;
 import java.util.Map;

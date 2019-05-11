@@ -1,5 +1,5 @@
 
-package weather_app.data.openweather;
+package weather_app.openweather;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,36 +12,36 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "speed",
-    "deg"
+    "lat",
+    "lon"
 })
-public class WindOpenWeather {
+public class CoordOpenWeather {
 
-    @JsonProperty("speed")
-    private Double speed;
-    @JsonProperty("deg")
-    private Double deg;
+    @JsonProperty("lat")
+    private Double lat;
+    @JsonProperty("lon")
+    private Double lon;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("speed")
-    public Double getSpeed() {
-        return speed;
+    @JsonProperty("lat")
+    public Double getLat() {
+        return lat;
     }
 
-    @JsonProperty("speed")
-    public void setSpeed(Double speed) {
-        this.speed = speed;
+    @JsonProperty("lat")
+    public void setLat(Double lat) {
+        this.lat = lat;
     }
 
-    @JsonProperty("deg")
-    public Double getDeg() {
-        return deg;
+    @JsonProperty("lon")
+    public Double getLon() {
+        return lon;
     }
 
-    @JsonProperty("deg")
-    public void setDeg(Double deg) {
-        this.deg = deg;
+    @JsonProperty("lon")
+    public void setLon(Double lon) {
+        this.lon = lon;
     }
 
     @JsonAnyGetter

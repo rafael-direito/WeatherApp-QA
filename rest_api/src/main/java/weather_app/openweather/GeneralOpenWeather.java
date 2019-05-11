@@ -1,5 +1,5 @@
 
-package weather_app.data.openweather;
+package weather_app.openweather;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +27,7 @@ public class GeneralOpenWeather {
     @JsonProperty("cnt")
     private Integer cnt;
     @JsonProperty("list")
-    private java.util.List<weather_app.data.openweather.ListOpenWeather> list = null;
+    private java.util.List<weather_app.openweather.ListOpenWeather> list = null;
     @JsonProperty("city")
     private CityOpenWeather city;
     @JsonIgnore
@@ -64,12 +64,12 @@ public class GeneralOpenWeather {
     }
 
     @JsonProperty("list")
-    public java.util.List<weather_app.data.openweather.ListOpenWeather> getList() {
+    public java.util.List<weather_app.openweather.ListOpenWeather> getList() {
         return list;
     }
 
     @JsonProperty("list")
-    public void setList(java.util.List<weather_app.data.openweather.ListOpenWeather> list) {
+    public void setList(java.util.List<weather_app.openweather.ListOpenWeather> list) {
         this.list = list;
     }
 

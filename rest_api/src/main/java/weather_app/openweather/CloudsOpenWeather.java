@@ -1,5 +1,5 @@
 
-package weather_app.data.openweather;
+package weather_app.openweather;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,23 +12,23 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "pod"
+    "all"
 })
-public class SysOpenWeather {
+public class CloudsOpenWeather {
 
-    @JsonProperty("pod")
-    private String pod;
+    @JsonProperty("all")
+    private Integer all;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("pod")
-    public String getPod() {
-        return pod;
+    @JsonProperty("all")
+    public Integer getAll() {
+        return all;
     }
 
-    @JsonProperty("pod")
-    public void setPod(String pod) {
-        this.pod = pod;
+    @JsonProperty("all")
+    public void setAll(Integer all) {
+        this.all = all;
     }
 
     @JsonAnyGetter

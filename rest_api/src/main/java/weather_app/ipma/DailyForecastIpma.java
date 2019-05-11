@@ -1,5 +1,5 @@
 
-package weather_app.data.ipma;
+package weather_app.ipma;
 
 import java.util.HashMap;
 import java.util.Map;

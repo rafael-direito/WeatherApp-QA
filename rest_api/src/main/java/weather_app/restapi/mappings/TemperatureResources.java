@@ -23,12 +23,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import weather_app.constants.Constants;
 import static weather_app.restapi.WeatherApp.restTemplate;
-import weather_app.data.ipma.DailyForecastIpma;
-import weather_app.data.ipma.GeneralForecastIpma;
-import weather_app.data.openweather.GeneralOpenWeather;
-import weather_app.data.openweather.ListOpenWeather;
-import x.DistrictIpma;
-import x.PortugalDistrictsIpma;
+import weather_app.openweather.GeneralOpenWeather;
+import weather_app.openweather.ListOpenWeather;
+import weather_app.ipma.IpmaCalls;
+import weather_app.openweather.OpenWeatherCalls;
 
 /**
  *
@@ -42,70 +40,10 @@ public class TemperatureResources
     @GetMapping("temperatures/day/{city}")
     public Map<String, Double> getTemperatureByDay(@PathVariable("city") final String city)
     {
-        /* 
-        IPMA Data 
-        */
-        Map<String, Double> ipmaInfo = null;
-        try 
-        {
-            //get city ID
-            PortugalDistrictsIpma pd = restTemplate.getForObject("http://api.ipma.pt/open-data/distrits-islands.json", PortugalDistrictsIpma.class);
-            
-            int id = -1;
-            
-            for(DistrictIpma d : pd.getData())
-                if(d.getLocal().equals(city))
-                    id=d.getGlobalIdLocal();
-            
-            // get info for that district
-            ipmaInfo = new HashMap<>();
-            GeneralForecastIpma gf = restTemplate.getForObject("http://api.ipma.pt/open-data/forecast/meteorology/cities/daily/"+id+".json", GeneralForecastIpma.class);
-            for(DailyForecastIpma df : gf.getData())
-                ipmaInfo.put(df.getForecastDate(), (Double.parseDouble(df.getTMin()) + Double.parseDouble(df.getTMax()))/2);
-        } 
-        catch (Exception exception) {
-            System.out.println("Unable to fetch data from IPMA");
-            System.out.println(exception);
-        }
+        // get data
+        Map<String, Double> ipmaInfo = IpmaCalls.getTemperatures(city);
+        Map<String, Double> openWeatherInfo = OpenWeatherCalls.getTemperaturesByDay(city);
         
-        /* 
-        Open Weather Data 
-        */
-        Map<String, Double> openWeatherInfo = null;
-        try 
-        {
-            String day = "";
-            
-            Map<String, List<Double>> tmpOpenWeatherInfo = new HashMap<>();
-            GeneralOpenWeather gow = restTemplate.getForObject("http://api.openweathermap.org/data/2.5/forecast?q=" + city +",PT&APPID=" + Constants.openWeatherApiKey, GeneralOpenWeather.class);
-            System.out.println("http://api.openweathermap.org/data/2.5/forecast?q=" + city +",PT&APPID=" + Constants.openWeatherApiKey);    
-            for(ListOpenWeather low : gow.getList())
-            {
-                // if day is not already in map
-                day = low.getDtTxt().split(" ")[0];
-                if(!tmpOpenWeatherInfo.containsKey(day))
-                    
-                    tmpOpenWeatherInfo.put(
-                            day,
-                            new ArrayList<Double>(Arrays.asList(Constants.kelvinToCelsius(low.getMain().getTemp())))
-                    );
-                //if day is already in map
-                else tmpOpenWeatherInfo.get(day).add(Constants.kelvinToCelsius(low.getMain().getTemp()));
-            }
-            // do averages to get daily temperatures
-            openWeatherInfo = new HashMap<>();
-            for(String key : tmpOpenWeatherInfo.keySet())
-            {
-                double sum = 0;
-                for(Double d : tmpOpenWeatherInfo.get(key))
-                    sum += new Double(Math.round(d));
-                openWeatherInfo.put(key, sum/tmpOpenWeatherInfo.get(key).size());
-            }
-        } 
-        catch (Exception exception) {
-            System.out.println("Unable to fetch data from OpenWeather");
-            System.out.println(exception);
-        }
         
         if (ipmaInfo == null && openWeatherInfo == null)
             return new HashMap<>();
@@ -132,29 +70,12 @@ public class TemperatureResources
         }  
     }
     
+    
     @ApiOperation("Returns a list of temperatures spaced by 3 hours")
     @GetMapping("temperatures/hour/{city}")
     public Map<String, Double> getTemperatureByHour(@PathVariable("city") final String city)
     {
-        Map<String, Double> openWeatherInfo = null;
-        try 
-        {
-            String date = "";
-            
-            openWeatherInfo = new TreeMap<>();
-            GeneralOpenWeather gow = restTemplate.getForObject("http://api.openweathermap.org/data/2.5/forecast?q=" + city +",PT&APPID=" + Constants.openWeatherApiKey, GeneralOpenWeather.class);
-            System.out.println("http://api.openweathermap.org/data/2.5/forecast?q=" + city +",PT&APPID=" + Constants.openWeatherApiKey);    
-            for(ListOpenWeather low : gow.getList())
-            {
-                date = low.getDtTxt();
-                openWeatherInfo.put(date, new Double(Math.round(Constants.kelvinToCelsius(low.getMain().getTemp()) * 100.00)/100.00));
-            }
-        } 
-        catch (Exception exception) {
-            System.out.println("Unable to fetch data from OpenWeather");
-            System.out.println(exception);
-        }
-        return openWeatherInfo;
+      return OpenWeatherCalls.getTemperaturesByHour(city);
     }
     
 }
