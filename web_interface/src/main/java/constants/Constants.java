@@ -86,7 +86,7 @@ public class Constants
                 monthStr="-";
         }
         
-        switch(month)
+        switch(day)
         {
             case 1 :
                 dayStr="1st";

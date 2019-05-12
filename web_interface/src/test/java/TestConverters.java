@@ -39,9 +39,21 @@ public class TestConverters
     @DisplayName("From Date to String")
     public void checkDateToString()
     {
-        String mDate = "2019-05-12";
-        String expected = "May, 12th";
-        assertEquals(Constants.dateToString(mDate), expected);
+        assertEquals(Constants.dateToString("2019-01-01"), "January, 1st");
+        assertEquals(Constants.dateToString("2019-02-02"), "February, 2nd");
+        assertEquals(Constants.dateToString("2019-03-03"), "March, 3rd");
+        assertEquals(Constants.dateToString("2019-04-21"), "April, 21st");
+        assertEquals(Constants.dateToString("2019-05-22"), "May, 22nd");
+        assertEquals(Constants.dateToString("2019-06-23"), "June, 23rd");
+        assertEquals(Constants.dateToString("2019-07-31"), "July, 31st");
+        assertEquals(Constants.dateToString("2019-08-12"), "August, 12th");
+        assertEquals(Constants.dateToString("2019-09-12"), "September, 12th");
+        assertEquals(Constants.dateToString("2019-10-12"), "October, 12th");
+        assertEquals(Constants.dateToString("2019-11-12"), "November, 12th");
+        assertEquals(Constants.dateToString("2019-12-12"), "December, 12th");
+        //default
+        assertEquals(Constants.dateToString("2019-00-12"), "-, 12th");
+        
     }
     
     
@@ -49,9 +61,8 @@ public class TestConverters
     @DisplayName("From Date to Day of The Week")
     public void checkDateToDayOfWeek()
     {
-        String mDate = "2019-05-12";
-        String expected = "Sunday";
-        assertEquals(Constants.dateToDayOfWeek(mDate), expected);
+        assertEquals(Constants.dateToDayOfWeek("2019-05-12"), "Sunday");
+        assertEquals(Constants.dateToDayOfWeek("2019/05/12"), "error");
     }
     
 }
