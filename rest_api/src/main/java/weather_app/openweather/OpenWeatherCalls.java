@@ -101,7 +101,7 @@ public class OpenWeatherCalls
                 HourForecast hf = new HourForecast();
                 hf.settMin(low.getMain().getTempMin());
                 hf.settMax(low.getMain().getTempMax());
-                hf.setWeatherType(low.getWeather().get(0).getMain());
+                hf.setWeatherType(Constants.weatherToIpma(low.getWeather().get(0).getDescription()));
                 hf.setTime(low.getDtTxt());
                 hf.setHumidity(new Double(low.getMain().getHumidity()));
                 hf.setWindDir(Constants.windDegreesToCardinal(low.getWind().getDeg()));
