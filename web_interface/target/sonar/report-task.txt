@@ -1,6 +1,7 @@
-projectKey=pt.ua:web_interface
-serverUrl=http://localhost:9000
-serverVersion=7.7.0.23042
-dashboardUrl=http://localhost:9000/dashboard?id=pt.ua%3Aweb_interface
-ceTaskId=AWqsKhgnMYtxLloghf5L
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AWqsKhgnMYtxLloghf5L
+organization=rafadireito-github
+projectKey=rafadireito_WeatherApp-QA
+serverUrl=https://sonarcloud.io
+serverVersion=7.8.0.24676
+dashboardUrl=https://sonarcloud.io/dashboard?id=rafadireito_WeatherApp-QA
+ceTaskId=AWqsLmi7gvTe5u3ZTlak
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AWqsLmi7gvTe5u3ZTlak

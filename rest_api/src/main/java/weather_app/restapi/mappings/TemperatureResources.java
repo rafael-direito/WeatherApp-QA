@@ -32,7 +32,7 @@ import static weather_app.restapi.WeatherApp.mCache;
 public class TemperatureResources
 {
     @ApiOperation("Returns a list of temperatures, regarding each day")
-    @GetMapping("temperatures/day/{city}")
+    @GetMapping("api/temperatures/day/{city}")
     public Map<String, Double> getTemperatureByDay(@PathVariable("city") final String city)
     {
         // Consult cache
@@ -40,18 +40,21 @@ public class TemperatureResources
         if(mCache.get(Constants.temperatureDay(city)) == null)
         {
             data = generateTemperatureByDay(city);
+            System.out.println("Writing to cache");
             mCache.add(Constants.temperatureDay(city), data, 180);
         }
         else
+        {
+            System.out.println("alkjshfljkahsf");
             data = (Map<String,Double>) mCache.get(Constants.temperatureDay(city));
+        }
         
         return data;
-          
     }
     
     
     @ApiOperation("Returns a list of temperatures spaced by 3 hours")
-    @GetMapping("temperatures/hour/{city}")
+    @GetMapping("api/temperatures/hour/{city}")
     public Map<String, Double> getTemperatureByHour(@PathVariable("city") final String city)
     {
       // Consult cache
@@ -68,7 +71,7 @@ public class TemperatureResources
     }
     
     
-    private  Map<String, Double> generateTemperatureByDay(String city)
+    public  Map<String, Double> generateTemperatureByDay(String city)
     {
        // get data
         Map<String, Double> ipmaInfo = IpmaCalls.getTemperatures(city);

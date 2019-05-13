@@ -29,7 +29,7 @@ import static weather_app.restapi.WeatherApp.mCache;
 public class HumidityResources 
 {
     @ApiOperation("Returns a list of humidities, regarding each day")
-    @GetMapping("humidities/day/{city}")
+    @GetMapping("api/humidities/day/{city}")
     public Map<String,Double> getHumidityByDay(@PathVariable("city") final String city)
     {
         // Consult cache
@@ -46,7 +46,7 @@ public class HumidityResources
     }
     
     @ApiOperation("Returns a list of humidities spaced by 3 hours")
-    @GetMapping("humidities/hour/{city}")
+    @GetMapping("api/humidities/hour/{city}")
     public Map<String,Double> getHumidityByHour (@PathVariable("city") final String city)
     {
         // Consult cache

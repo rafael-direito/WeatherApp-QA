@@ -9,8 +9,6 @@ package weather_app.restapi.mappings;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -32,7 +30,7 @@ import static weather_app.restapi.WeatherApp.mCache;
 public class ForecastsResources 
 {
     @ApiOperation("Returns a list of forecasts, regarding each day")
-    @GetMapping("general_info/{city}/{num_days}")
+    @GetMapping("api/general_info/{city}/{num_days}")
     public  Map<String, Map<String, String>> generalInfo(
             @PathVariable("city") final String city,
             @PathVariable("num_days") final int num_days)
@@ -63,7 +61,7 @@ public class ForecastsResources
     
     
     @ApiOperation("Returns a forecast of a specific day")
-    @GetMapping("specific_info/{city}/{day}")
+    @GetMapping("api/specific_info/{city}/{day}")
     public Map<String, String> specificInfo(
             @PathVariable("city") final String city,
             @PathVariable("day") final String day)

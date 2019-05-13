@@ -92,11 +92,16 @@ public class IpmaCalls
                 tmp.put("precipitationProb", df.getPrecipitaProb());
                 tmp.put("latitude", df.getLatitude());
                 tmp.put("longitude", df.getLongitude());
-                tmp.put("longitude", df.getLongitude());
                 tmp.put("windDir", df.getPredWindDir());
-                tmp.put("weather", getWeatherType(df.getIdWeatherType()).getDescIdWeatherTypeEN());
-                tmp.put("windIntensity", getWindType(df.getClassWindSpeed()).getDescClassWindSpeedDailyEN());
                 
+                WeatherTypeIpma weatherTypeIpma = getWeatherType(df.getIdWeatherType());
+                if(weatherTypeIpma!=null) tmp.put("weather",weatherTypeIpma.getDescIdWeatherTypeEN());
+                else tmp.put("weather","none"); 
+                
+                WindTypeIpma windTypeIpma =  getWindType(df.getClassWindSpeed()); 
+                if(windTypeIpma!=null) tmp.put("windIntensity",windTypeIpma.getDescClassWindSpeedDailyEN());
+                else tmp.put("windIntensity","none"); 
+                                
                 ipmaInfo.put(df.getForecastDate(), tmp);
             }
             return ipmaInfo;

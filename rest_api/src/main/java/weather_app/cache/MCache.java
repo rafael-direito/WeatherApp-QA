@@ -3,35 +3,36 @@
 * To change this template file, choose Tools | Templates
 * and open the template in the editor.
 */
-package weather_app.constants.cache;
+package weather_app.cache;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static weather_app.restapi.WeatherApp.logger;
 
 /**
  *
  * @author rd
  */
-public class mCache
+public class MCache
 {
-    private Map<String, Object> mCache = new HashMap<>();
+    private int hits=0;
+    private int misses=0;
+    private Thread cleaningThread=null;
+    private Map<String, Object> cache = new HashMap<>();
     private Map<String, Long> deleteTimes = new HashMap<>();
     
     // there is thread that will run from n to n seconds and check if a registry
     // can be deleted
-    private int cleanUpTimeSeconds;
+    private long cleanUpTimeSeconds;
     
-    public mCache (int cleanUpTimeSeconds)
+    public MCache (long cleanUpTimeSeconds) throws InterruptedException
     {
         this.cleanUpTimeSeconds=cleanUpTimeSeconds;
         //initiate cleaning thread
-        initiateCleaningThread();
+        cleaningThread = initiateCleaningThread();
         
     }
-    
+
     public void add(String key, Object value, long ttl)
     {
         if (key == null) {return;}
@@ -42,42 +43,42 @@ public class mCache
         {
             long deleteTime = System.currentTimeMillis() + ttl * 1000;
             deleteTimes.put(key, deleteTime);
-            mCache.put(key, value);
+            cache.put(key, value);
         }
     }
     
     
     public boolean delete(String key)
     {
-        if (!mCache.containsKey(key))
-            return true;
+        if (!cache.containsKey(key))
+            return false;
         else
-            try
-            {
-                mCache.remove(key);
-                deleteTimes.remove(key);
-                return true;
-            }
-            catch(Exception e) { return false; }
+        {
+            cache.remove(key);
+            deleteTimes.remove(key);
+            return true;
+        }
     }
     
     
     public Object get(String key)
     {
-        if(mCache.containsKey(key) && deleteTimes.get(key)>System.currentTimeMillis())
+        if(cache.containsKey(key) && deleteTimes.get(key)>System.currentTimeMillis())
         {
             logger.info("Information extracted from cache");
-            return mCache.get(key);
+            hits++;
+            return cache.get(key);
         }
+        misses++;
         return null;
     }
     
     
-    public void clear() { mCache.clear();}
+    public void clear() { cache.clear();}
     
-    public int size() { return mCache.size(); }
+    public int size() { return cache.size(); }
     
-    public void initiateCleaningThread()
+    public Thread initiateCleaningThread()throws InterruptedException
     {
         Thread thread = new Thread()
         {
@@ -87,25 +88,45 @@ public class mCache
                 {
                     logger.info("CleaningThread is now executing");
                     
-                    for(String k : mCache.keySet())
+                    for(String k : cache.keySet())
                     {
-                        if(deleteTimes.containsKey(k) && deleteTimes.get(k) <  System.currentTimeMillis())
+                        if(deleteTimes.get(k) <  System.currentTimeMillis())
                         {
                             logger.info("Deleted key: " + k);
                             delete(k);
                         }
                     }
-                    try { Thread.sleep(cleanUpTimeSeconds * 1000);}
-                    catch (InterruptedException ex)
-                    {
-                        Logger.getLogger(mCache.class.getName()).log(Level.SEVERE, null, ex);
+                    try {
+                        Thread.sleep(cleanUpTimeSeconds * 1000);
+                    } catch (InterruptedException ex) {
+                        logger.error("CleaningThread Interrupted");
+                        Thread.currentThread().interrupt();
                     }
                 }
-                
             }
+            
         };
         
         thread.start();
+        return thread;
     }
+    
+
+    public int getHits() {
+        return hits;
+    }
+
+    public int getMisses() {
+        return misses;
+    }
+
+    public long getCleanUpTimeSeconds() {
+        return cleanUpTimeSeconds;
+    }
+
+    public Thread getCleaningThread() {
+        return cleaningThread;
+    }
+    
     
 }

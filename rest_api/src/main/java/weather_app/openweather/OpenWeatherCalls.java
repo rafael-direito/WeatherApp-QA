@@ -5,6 +5,9 @@
 */
 package weather_app.openweather;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,7 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import weather_app.constants.Calculations;
 import weather_app.constants.Constants;
+import weather_app.constants.Converters;
 import static weather_app.restapi.WeatherApp.logger;
 import static weather_app.restapi.WeatherApp.restTemplate;
 
@@ -30,8 +35,17 @@ public class OpenWeatherCalls
         {
             String date = "";
             
+            URL url = new URL(Constants.getOpenWeatherForecast(city));
+            InetAddress inetAddress = InetAddress.getByName(url.getHost());
+            
+            if (!url.getProtocol().startsWith("http") ||
+                    inetAddress.isAnyLocalAddress() ||
+                    inetAddress.isLoopbackAddress() ||
+                    inetAddress.isLinkLocalAddress())
+                throw new IOException();
+            
             openWeatherInfo = new TreeMap<>();
-            GeneralOpenWeather gow = restTemplate.getForObject(Constants.getOpenWeatherForecast(city), GeneralOpenWeather.class);
+            GeneralOpenWeather gow = restTemplate.getForObject(url.toString(), GeneralOpenWeather.class);
             
             if(type == type.TEMPERATURE)
                 for(ListOpenWeather low : gow.getList())
@@ -101,11 +115,11 @@ public class OpenWeatherCalls
                 HourForecast hf = new HourForecast();
                 hf.settMin(low.getMain().getTempMin());
                 hf.settMax(low.getMain().getTempMax());
-                hf.setWeatherType(Constants.weatherToIpma(low.getWeather().get(0).getDescription()));
+                hf.setWeatherType(Converters.weatherToIpma(low.getWeather().get(0).getDescription()));
                 hf.setTime(low.getDtTxt());
                 hf.setHumidity(new Double(low.getMain().getHumidity()));
-                hf.setWindDir(Constants.windDegreesToCardinal(low.getWind().getDeg()));
-                hf.setPressure(new Double(low.getMain().getPressure()));
+                hf.setWindDir(Converters.windDegreesToCardinal(low.getWind().getDeg()));
+                hf.setPressure(low.getMain().getPressure());
                 hf.setLongitude(gow.getCity().getCoord().getLon());
                 hf.setLatitude(gow.getCity().getCoord().getLat());
                 
@@ -151,10 +165,10 @@ public class OpenWeatherCalls
             
             for(String d : days)
             {
-                openWeatherInfo.get(d).put("weather", Constants.mostCommonElement(openWeatherInfo.get(d).get("weather").split(" ")));
-                openWeatherInfo.get(d).put("windDir", Constants.mostCommonElement(openWeatherInfo.get(d).get("windDir").split(" ")));
-                openWeatherInfo.get(d).put("humidity", Constants.averageDoubleFromArray(openWeatherInfo.get(d).get("humidity").split(" ")) + "");
-                openWeatherInfo.get(d).put("pressure", Constants.averageDoubleFromArray(openWeatherInfo.get(d).get("pressure").split(" ")) + "");
+                openWeatherInfo.get(d).put("weather", Calculations.mostCommonElement(openWeatherInfo.get(d).get("weather").split(" ")));
+                openWeatherInfo.get(d).put("windDir", Calculations.mostCommonElement(openWeatherInfo.get(d).get("windDir").split(" ")));
+                openWeatherInfo.get(d).put("humidity", Calculations.averageDoubleFromArray(openWeatherInfo.get(d).get("humidity").split(" ")) + "");
+                openWeatherInfo.get(d).put("pressure", Calculations.averageDoubleFromArray(openWeatherInfo.get(d).get("pressure").split(" ")) + "");
             }
             
             return openWeatherInfo;
@@ -165,5 +179,5 @@ public class OpenWeatherCalls
             logger.error(exception.toString());
             return null;
         }
-    }   
+    }
 }

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class GraphicResources 
 {
     @ApiOperation("Returns a b64 image for a specific weather type")
-    @GetMapping("weather_icon/{weather_id}")
+    @GetMapping("api/weather_icon/{weather_id}")
     public String getWeatherIcon(@PathVariable("weather_id") final long weather_id)
     {return "";}
     
