@@ -1,4 +1,4 @@
-package pt.ua.weather_app.weather_app;
+package weather_app.weather_app;
 
 import weather_app.restapi.WeatherApp;
 import org.junit.Test;

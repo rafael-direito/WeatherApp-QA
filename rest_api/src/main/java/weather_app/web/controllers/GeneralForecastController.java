@@ -25,6 +25,7 @@ import weather_app.restapi.mappings.ForecastsResources;
 @Controller
 public class GeneralForecastController 
 {
+    private Converters converters = new Converters();
     private ForecastsResources fr = new ForecastsResources();
 
     @GetMapping("/generalForecast")
@@ -32,18 +33,20 @@ public class GeneralForecastController
             @RequestParam(name="city", required=false, defaultValue="Lisboa") String city,
             @RequestParam(name="numDays", required=false, defaultValue="5") String numDays,
             Model model) 
-    {
-        System.out.println("akjshfjafash");
-        
+    {        
         // get Forecasts
         TreeMap<String, Map<String, String>> forecasts = (TreeMap<String, Map<String, String>>) fr.generalInfo(city, Integer.parseInt(numDays));
         // add Atributes
         model.addAttribute("city", city);
         model.addAttribute("numDays", Integer.parseInt(numDays));
+        
+        for (Map.Entry entry : forecasts.entrySet())
+            ((Map<String, String>) entry.getValue()).put("weekDay", converters.dateToDayOfWeek((String)entry.getKey()));
+       
         model.addAttribute("forecasts", forecasts);
         model.addAttribute("forecastNumberDays", new ForecastNumberDays());
         
-        return "generalForecast";
+        return "generalForecast.html";
     }
         
     @PostMapping("/generalForecast")
@@ -78,7 +81,7 @@ public class GeneralForecastController
         // add Atributes
         model.addAttribute("city", city);
         model.addAttribute("day", day);
-        model.addAttribute("dayStr", Converters.dateToString(day));
+        model.addAttribute("dayStr", converters.dateToString(day));
         model.addAttribute("forecast", forecast);
         
         return "specificForecast";

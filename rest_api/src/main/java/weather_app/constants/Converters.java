@@ -16,10 +16,8 @@ import java.util.Date;
  */
 public class Converters
 {
-    private Converters() {
-        throw new IllegalStateException("Utility class");
-    }
-    public static final String windDegreesToCardinal(Double degree)
+
+    public String windDegreesToCardinal(Double degree)
     {
         if((degree >= 360-22.5  && degree <=360)|| (degree>=0 && degree < 22.5)) return "N";
         else if (degree >= 22.5 && degree < 90-22.5) return "NE";
@@ -32,7 +30,7 @@ public class Converters
         else  return "None";
     }
     
-    public static final String weatherToIpma(String openWeatherDescription)
+    public String weatherToIpma(String openWeatherDescription)
     {
         switch(openWeatherDescription)
         {
@@ -59,7 +57,7 @@ public class Converters
         }
     }
     
-    public static final String dateToDayOfWeek(String date)
+    public String dateToDayOfWeek(String date)
     {
         try {
             SimpleDateFormat format1= new SimpleDateFormat("yyyy-MM-dd");
@@ -70,7 +68,7 @@ public class Converters
     }
     
     
-    public static final String dateToString(String date)
+    public String dateToString(String date)
     {
         int month = Integer.parseInt(date.split("-")[1]);
         int day = Integer.parseInt(date.split("-")[2]);

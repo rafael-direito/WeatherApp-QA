@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public class Calculations 
 {
-    public static final String mostCommonElement(String[] array){
+    public final String mostCommonElement(String[] array){
         Map<String, Integer> results = new HashMap<>();
         
         for(String e: array)
@@ -25,7 +25,7 @@ public class Calculations
         return Collections.max(results.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getKey();
     }
     
-    public static double averageDoubleFromArray(String[] array){
+    public double averageDoubleFromArray(String[] array){
         double sum = 0;
         for(String s : array)
             sum += Double.parseDouble(s);

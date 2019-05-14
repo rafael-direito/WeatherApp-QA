@@ -18,8 +18,11 @@ import static org.junit.Assert.*;
  */
 public class ConstantsTest {
     
+    Constants constants = new Constants();
+    
     public ConstantsTest() {
     }
+    
     
     @BeforeClass
     public static void setUpClass() {
@@ -38,87 +41,87 @@ public class ConstantsTest {
     }
 
     /**
-     * Test of getOpenWeatherForecast method, of class Constants.
+     * Test of getOpenWeatherForecast method, of class constants.
      */
     @Test
     public void testGetOpenWeatherForecast() {
         System.out.println("getOpenWeatherForecast");
         String city = "Aveiro";
-        String expResult = "http://api.openweathermap.org/data/2.5/forecast?q="+ city + ",PT&APPID=" + Constants.OPENWEATHER_APIKEY;
-        String result = Constants.getOpenWeatherForecast(city);
+        String expResult = "http://api.openweathermap.org/data/2.5/forecast?q="+ city + ",PT&APPID=" + constants.OPENWEATHERAPIKEY;
+        String result = constants.getOpenWeatherForecast(city);
         assertEquals(expResult, result);
         
     }
 
     /**
-     * Test of kelvinToCelsius method, of class Constants.
+     * Test of kelvinToCelsius method, of class constants.
      */
     @Test
     public void testKelvinToCelsius() {
         System.out.println("kelvinToCelsius");
         Double kelvin = 1.0;
         Double expResult = -272.15;
-        Double result = Constants.kelvinToCelsius(kelvin);
+        Double result = constants.kelvinToCelsius(kelvin);
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of forecastKeyCache method, of class Constants.
+     * Test of forecastKeyCache method, of class constants.
      */
     @Test
     public void testForecastKeyCache() {
         System.out.println("forecastKeyCache");
         String city = "Aveiro";
         String expResult = "Forecast"+city;
-        String result = Constants.forecastKeyCache(city);
+        String result = constants.forecastKeyCache(city);
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of humidityDay method, of class Constants.
+     * Test of humidityDay method, of class constants.
      */
     @Test
     public void testHumidityDay() {
         System.out.println("humidityDay");
         String city = "";
         String expResult = "HumidityDay"+city;
-        String result = Constants.humidityDay(city);
+        String result = constants.humidityDay(city);
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of humidityHour method, of class Constants.
+     * Test of humidityHour method, of class constants.
      */
     @Test
     public void testHumidityHour() {
         System.out.println("humidityHour");
         String city = "";
         String expResult = "HumidityHour"+city;
-        String result = Constants.humidityHour(city);
+        String result = constants.humidityHour(city);
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of temperatureDay method, of class Constants.
+     * Test of temperatureDay method, of class constants.
      */
     @Test
     public void testTemperatureDay() {
         System.out.println("temperatureDay");
         String city = "";
         String expResult = "TemperatureDay"+city;
-        String result = Constants.temperatureDay(city);
+        String result = constants.temperatureDay(city);
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of temperatureHour method, of class Constants.
+     * Test of temperatureHour method, of class constants.
      */
     @Test
     public void testTemperatureHour() {
         System.out.println("temperatureHour");
         String city = "";
         String expResult = "TemperatureHour"+city;
-        String result = Constants.temperatureHour(city);
+        String result = constants.temperatureHour(city);
         assertEquals(expResult, result);
     }
     

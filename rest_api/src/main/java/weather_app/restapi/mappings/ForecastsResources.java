@@ -16,9 +16,11 @@ import java.util.TreeSet;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import weather_app.cache.MCache;
 import weather_app.constants.Constants;
 import weather_app.ipma.IpmaCalls;
 import weather_app.openweather.OpenWeatherCalls;
+import weather_app.restapi.WeatherApp;
 import static weather_app.restapi.WeatherApp.mCache;
 
 /**
@@ -29,29 +31,35 @@ import static weather_app.restapi.WeatherApp.mCache;
 @Api(value="Forecast Resources", tags = { "forecastResources" })
 public class ForecastsResources 
 {
+    IpmaCalls ipmaCalls = new IpmaCalls();
+    private MCache mCache;
+    private Constants constants = new Constants();
+    private OpenWeatherCalls openWeatherCalls = new OpenWeatherCalls();
+    
     @ApiOperation("Returns a list of forecasts, regarding each day")
     @GetMapping("api/general_info/{city}/{num_days}")
     public  Map<String, Map<String, String>> generalInfo(
             @PathVariable("city") final String city,
             @PathVariable("num_days") final int num_days)
     {
+        if(mCache==null) setmCache(WeatherApp.mCache);
         // Consult cache
         Map<String, Map<String, String>> merged = null;
-        if(mCache.get(Constants.forecastKeyCache(city)) == null)
+        if(mCache.get(constants.forecastKeyCache(city)) == null)
         {
             merged =  mergeIpmaOpenWeather(city);
-            mCache.add(Constants.forecastKeyCache(city), merged, 180);
+            mCache.add(constants.forecastKeyCache(city), merged, 180);
         }
         else
-            merged =  (Map<String, Map<String, String>>) mCache.get(Constants.forecastKeyCache(city));
+            merged =  (Map<String, Map<String, String>>) mCache.get(constants.forecastKeyCache(city));
         
         // Select Number of days we want
         Map<String, Map<String, String>> results = new TreeMap<>();
         int count = 0;
         
-        for(String k : merged.keySet())
+        for( Map.Entry entry  : merged.entrySet())
             if (count<num_days){
-                results.put(k, merged.get(k));
+                results.put((String)entry.getKey(), merged.get(entry.getKey()));
                 count ++;
             }
             else break;
@@ -66,40 +74,42 @@ public class ForecastsResources
             @PathVariable("city") final String city,
             @PathVariable("day") final String day)
     {
+        if(mCache==null) setmCache(WeatherApp.mCache);
         // Consult the cache
         Map<String, Map<String, String>> merged = null;
-        if(mCache.get(Constants.forecastKeyCache(city)) == null)
+        if(mCache.get(constants.forecastKeyCache(city)) == null)
         {
+            
             merged =  mergeIpmaOpenWeather(city);
-            mCache.add(Constants.forecastKeyCache(city), merged, 180);
+            mCache.add(constants.forecastKeyCache(city), merged, 180);
         }
         else
-            merged =  (Map<String, Map<String, String>>) mCache.get(Constants.forecastKeyCache(city));
+            merged =  (Map<String, Map<String, String>>) mCache.get(constants.forecastKeyCache(city));
 
         return merged.get(day);
     }
     
     
-    private Map<String, Map<String,String>> mergeIpmaOpenWeather (String city){
+    public Map<String, Map<String,String>> mergeIpmaOpenWeather (String city){
         
        Map<String, Map<String,String>> results = new TreeMap<>();
-       Map<String, Map<String,String>> ipma = IpmaCalls.getForecast(city);
-       Map<String, Map<String,String>> openWeather = OpenWeatherCalls.getForecast(city);
+       Map<String, Map<String,String>> ipma = ipmaCalls.getForecast(city);
+       Map<String, Map<String,String>> openWeatherMap = openWeatherCalls.getForecast(city);
        
        // get forecast days
        Set<String> days = new TreeSet<>();
-       days.addAll(ipma.keySet());
-       days.addAll(openWeather.keySet());
+       if(ipma != null)
+            days.addAll(ipma.keySet());
+       if(openWeatherMap != null)
+            days.addAll(openWeatherMap.keySet());
        
        //fill the data
        for(String d : days)
        {
            Map<String,String> tmp = new TreeMap<>();
            //FillMap
-           for (String k : new String[] 
-               {"tMin", "tMax", "weather", "windDir", "windIntensity", "latitude",  
-               "longitude", "precipitationProb", "humidity", "pressure"})
-           fillMap(tmp, ipma, openWeather, d, k);
+           for (String k : new String[] {"tMin", "tMax", "weather", "windDir", "windIntensity", "latitude","longitude", "precipitationProb", "humidity", "pressure"})
+           fillMap(tmp, ipma, openWeatherMap, d, k);
                       
            results.put(d, tmp);
        }
@@ -107,7 +117,7 @@ public class ForecastsResources
     }
     
     
-    private void fillMap(Map<String,String> mMap, Map<String, Map<String,String>> ipma, 
+    public void fillMap(Map<String,String> mMap, Map<String, Map<String,String>> ipma, 
             Map<String, Map<String,String>> openWeather, String d, String key)
     {
         if(isEligible(ipma, d, key))
@@ -119,10 +129,12 @@ public class ForecastsResources
     }
     
     
-    private boolean isEligible(Map<String, Map<String,String>> mMap, String d, String key)
+    public boolean isEligible(Map<String, Map<String,String>> mMap, String d, String key)
     {
-        if(mMap.containsKey(d) && mMap.get(d).containsKey(key) && mMap.get(d).get(key) != null)
-            return true;
-        return false;
+        return (mMap!=null && mMap.containsKey(d) && mMap.get(d).containsKey(key) && mMap.get(d).get(key) != null);
+    }
+    
+    public void setmCache(MCache mCache) {
+        this.mCache = mCache;
     }
 }

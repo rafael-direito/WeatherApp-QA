@@ -28,31 +28,33 @@ import static weather_app.restapi.WeatherApp.restTemplate;
  */
 public class OpenWeatherCalls
 {
-    public static Map<String, Double> getDataByHour(String city, DataType type)
+    Calculations calculations = new Calculations();
+    Constants constants = new Constants();
+    Converters  converters = new Converters();
+    
+    public  Map<String, Double> getDataByHour(String city, DataType type)
     {
         Map<String, Double> openWeatherInfo = null;
         try
         {
             String date = "";
             
-            URL url = new URL(Constants.getOpenWeatherForecast(city));
+            URL url = new URL(constants.getOpenWeatherForecast(city));
             InetAddress inetAddress = InetAddress.getByName(url.getHost());
-            
-            if (!url.getProtocol().startsWith("http") ||
-                    inetAddress.isAnyLocalAddress() ||
-                    inetAddress.isLoopbackAddress() ||
-                    inetAddress.isLinkLocalAddress())
-                throw new IOException();
+
             
             openWeatherInfo = new TreeMap<>();
+            
             GeneralOpenWeather gow = restTemplate.getForObject(url.toString(), GeneralOpenWeather.class);
             
             if(type == type.TEMPERATURE)
+            {
                 for(ListOpenWeather low : gow.getList())
                 {
-                    date = low.getDtTxt();
-                    openWeatherInfo.put(date, new Double(Math.round(Constants.kelvinToCelsius(low.getMain().getTemp()) * 100.00)/100.00));
+                        date = low.getDtTxt();
+                    openWeatherInfo.put(date, new Double(Math.round(constants.kelvinToCelsius(low.getMain().getTemp()) * 100.00)/100.00));
                 }
+            }
             else if(type == type.HUMIDITY)
                 for(ListOpenWeather low : gow.getList())
                 {
@@ -69,7 +71,7 @@ public class OpenWeatherCalls
     }
     
     
-    public static Map<String, Double> getDataByDay(String city, DataType type)
+    public  Map<String, Double> getDataByDay(String city, DataType type)
     {
         Map<String, Double> dataByHour = getDataByHour(city, type);
         
@@ -101,7 +103,7 @@ public class OpenWeatherCalls
     }
     
     
-    public static Map<String, Map<String,String>> getForecast(String city)
+    public  Map<String, Map<String,String>> getForecast(String city)
     {
         
         try{
@@ -109,16 +111,16 @@ public class OpenWeatherCalls
             Map<String,Map<String,String>> openWeatherInfo = new TreeMap<>();
             List<String> days = new ArrayList<>();
             
-            GeneralOpenWeather gow = restTemplate.getForObject(Constants.getOpenWeatherForecast(city), GeneralOpenWeather.class);
+            GeneralOpenWeather gow = restTemplate.getForObject(constants.getOpenWeatherForecast(city), GeneralOpenWeather.class);
             for(ListOpenWeather low : gow.getList())
             {
                 HourForecast hf = new HourForecast();
                 hf.settMin(low.getMain().getTempMin());
                 hf.settMax(low.getMain().getTempMax());
-                hf.setWeatherType(Converters.weatherToIpma(low.getWeather().get(0).getDescription()));
+                hf.setWeatherType(converters.weatherToIpma(low.getWeather().get(0).getDescription()));
                 hf.setTime(low.getDtTxt());
                 hf.setHumidity(new Double(low.getMain().getHumidity()));
-                hf.setWindDir(Converters.windDegreesToCardinal(low.getWind().getDeg()));
+                hf.setWindDir(converters.windDegreesToCardinal(low.getWind().getDeg()));
                 hf.setPressure(low.getMain().getPressure());
                 hf.setLongitude(gow.getCity().getCoord().getLon());
                 hf.setLatitude(gow.getCity().getCoord().getLat());
@@ -150,11 +152,11 @@ public class OpenWeatherCalls
                 openWeatherInfo.get(day).put("windDir",  openWeatherInfo.get(day).get("windDir") + hf.getWindDir()+ " ");
                 openWeatherInfo.get(day).put("pressure",  openWeatherInfo.get(day).get("pressure") + hf.getPressure()+ " ");
                 
-                if( Constants.kelvinToCelsius(hf.gettMin()) < Constants.kelvinToCelsius(Double.parseDouble(openWeatherInfo.get(day).get("tMin"))))
-                    openWeatherInfo.get(day).put("tMin", Math.round(Constants.kelvinToCelsius(hf.gettMin()) *100.00)/100.00 + "");
+                if( constants.kelvinToCelsius(hf.gettMin()) < constants.kelvinToCelsius(Double.parseDouble(openWeatherInfo.get(day).get("tMin"))))
+                    openWeatherInfo.get(day).put("tMin", Math.round(constants.kelvinToCelsius(hf.gettMin()) *100.00)/100.00 + "");
                 
-                if( Constants.kelvinToCelsius(hf.gettMax())> Constants.kelvinToCelsius(Double.parseDouble(openWeatherInfo.get(day).get("tMax"))))
-                    openWeatherInfo.get(day).put("tMax", Math.round(Constants.kelvinToCelsius(hf.gettMax()) *100.00)/100.00 + "");
+                if( constants.kelvinToCelsius(hf.gettMax())> constants.kelvinToCelsius(Double.parseDouble(openWeatherInfo.get(day).get("tMax"))))
+                    openWeatherInfo.get(day).put("tMax", Math.round(constants.kelvinToCelsius(hf.gettMax()) *100.00)/100.00 + "");
                 
                 if(!openWeatherInfo.get(day).containsKey("longitude"))
                     openWeatherInfo.get(day).put("longitude", hf.getLongitude() + "");
@@ -165,10 +167,10 @@ public class OpenWeatherCalls
             
             for(String d : days)
             {
-                openWeatherInfo.get(d).put("weather", Calculations.mostCommonElement(openWeatherInfo.get(d).get("weather").split(" ")));
-                openWeatherInfo.get(d).put("windDir", Calculations.mostCommonElement(openWeatherInfo.get(d).get("windDir").split(" ")));
-                openWeatherInfo.get(d).put("humidity", Calculations.averageDoubleFromArray(openWeatherInfo.get(d).get("humidity").split(" ")) + "");
-                openWeatherInfo.get(d).put("pressure", Calculations.averageDoubleFromArray(openWeatherInfo.get(d).get("pressure").split(" ")) + "");
+                openWeatherInfo.get(d).put("weather", calculations.mostCommonElement(openWeatherInfo.get(d).get("weather").split(" ")));
+                openWeatherInfo.get(d).put("windDir", calculations.mostCommonElement(openWeatherInfo.get(d).get("windDir").split(" ")));
+                openWeatherInfo.get(d).put("humidity", calculations.averageDoubleFromArray(openWeatherInfo.get(d).get("humidity").split(" ")) + "");
+                openWeatherInfo.get(d).put("pressure", calculations.averageDoubleFromArray(openWeatherInfo.get(d).get("pressure").split(" ")) + "");
             }
             
             return openWeatherInfo;

@@ -5,8 +5,6 @@ package weather_app.restapi.mappings;
 * To change this template file, choose Tools | Templates
 * and open the template in the editor.
 */
-
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.HashMap;
@@ -17,11 +15,13 @@ import java.util.TreeMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import weather_app.cache.MCache;
 import weather_app.constants.Constants;
 import weather_app.ipma.IpmaCalls;
 import weather_app.openweather.DataType;
 import weather_app.openweather.OpenWeatherCalls;
-import static weather_app.restapi.WeatherApp.mCache;
+import weather_app.restapi.WeatherApp;
+import static weather_app.restapi.WeatherApp.logger;
 
 /**
  *
@@ -31,22 +31,27 @@ import static weather_app.restapi.WeatherApp.mCache;
 @Api(value="Temperature Resources",tags = { "temperatureResources" })
 public class TemperatureResources
 {
+    private Constants constants = new Constants();
+    private MCache mCache;
+    private OpenWeatherCalls openWeatherCalls = new OpenWeatherCalls();
+    private IpmaCalls ipmaCalls = new IpmaCalls();
+            
     @ApiOperation("Returns a list of temperatures, regarding each day")
     @GetMapping("api/temperatures/day/{city}")
     public Map<String, Double> getTemperatureByDay(@PathVariable("city") final String city)
     {
+        if(mCache==null) setmCache(WeatherApp.mCache);
         // Consult cache
         Map<String,Double> data = null;
-        if(mCache.get(Constants.temperatureDay(city)) == null)
+        if(mCache.get(constants.temperatureDay(city)) == null)
         {
             data = generateTemperatureByDay(city);
-            System.out.println("Writing to cache");
-            mCache.add(Constants.temperatureDay(city), data, 180);
+            logger.info("Writing to cache");
+            mCache.add(constants.temperatureDay(city), data, 180);
         }
         else
         {
-            System.out.println("alkjshfljkahsf");
-            data = (Map<String,Double>) mCache.get(Constants.temperatureDay(city));
+            data = (Map<String,Double>) mCache.get(constants.temperatureDay(city));
         }
         
         return data;
@@ -57,15 +62,16 @@ public class TemperatureResources
     @GetMapping("api/temperatures/hour/{city}")
     public Map<String, Double> getTemperatureByHour(@PathVariable("city") final String city)
     {
+      Map<String,Double> data = null;
+      if(mCache==null) setmCache(WeatherApp.mCache);
       // Consult cache
-        Map<String,Double> data = null;
-        if(mCache.get(Constants.temperatureHour(city)) == null)
+        if(mCache.get(constants.temperatureHour(city)) == null)
         {
-            data = OpenWeatherCalls.getDataByHour(city, DataType.TEMPERATURE);
-            mCache.add(Constants.temperatureHour(city), data, 180);
+            data = openWeatherCalls.getDataByHour(city, DataType.TEMPERATURE);
+            mCache.add(constants.temperatureHour(city), data, 180);
         }
         else
-            data = (Map<String,Double>) mCache.get(Constants.temperatureHour(city));
+            data = (Map<String,Double>) mCache.get(constants.temperatureHour(city));
         
         return data;
     }
@@ -74,15 +80,13 @@ public class TemperatureResources
     public  Map<String, Double> generateTemperatureByDay(String city)
     {
        // get data
-        Map<String, Double> ipmaInfo = IpmaCalls.getTemperatures(city);
-        Map<String, Double> openWeatherInfo = OpenWeatherCalls.getDataByDay(city, DataType.TEMPERATURE);
-        
-        
+        Map<String, Double> ipmaInfo = ipmaCalls.getTemperatures(city);
+        Map<String, Double> openWeatherInfo = openWeatherCalls.getDataByDay(city, DataType.TEMPERATURE);
         if (ipmaInfo == null && openWeatherInfo == null)
             return new HashMap<>();
-        else if (ipmaInfo == null && openWeatherInfo != null)
+        else if (ipmaInfo == null)
             return openWeatherInfo;
-        else if (ipmaInfo != null && openWeatherInfo == null)
+        else if (openWeatherInfo == null)
             return ipmaInfo;
         else
         {
@@ -102,4 +106,10 @@ public class TemperatureResources
             return avgTemp;        
         } 
     }
+    
+    
+    public void setmCache(MCache mCache) {this.mCache=mCache;}
+    public void setOpenWeatherCalls(OpenWeatherCalls openWeatherCalls) {this.openWeatherCalls=openWeatherCalls;}
+    public void setIpmaCalls(IpmaCalls ipmaCalls) {this.ipmaCalls=ipmaCalls;}
+
 }

@@ -5,7 +5,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.gen5.api.DisplayName;
 import weather_app.constants.Calculations;
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -20,6 +19,8 @@ import weather_app.constants.Calculations;
 public class TestCalculations 
 {
     public TestCalculations() {}
+    
+    Calculations calculations = new Calculations();
     
     @BeforeClass
     public static void setUpClass() {}
@@ -36,17 +37,15 @@ public class TestCalculations
     
     
     @Test
-    @DisplayName("mostCommonElement")
     public void mostCommonElement()
     {
-        assertEquals("a", Calculations.mostCommonElement(new String[] {"a", "b", "a"}));
+        assertEquals("a", calculations.mostCommonElement(new String[] {"a", "b", "a"}));
     }
     
     @Test
-    @DisplayName("averageDoubleFromArray")
     public void averageDoubleFromArray()
     {
-        assert(2.0 == Calculations.averageDoubleFromArray(new String[] {"3", "1", "2"}));
+        assert(2.0 == calculations.averageDoubleFromArray(new String[] {"3", "1", "2"}));
     }
     
     

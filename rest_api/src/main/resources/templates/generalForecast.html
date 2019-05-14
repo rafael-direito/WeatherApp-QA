@@ -25,34 +25,13 @@
         </script>
         
         <link rel="stylesheet" type="text/css" href="css/custom.css">
+        <script src="js/script.js"></script> 
     </head>
     
     <body>
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
             <!-- Brand -->
-            <a class="navbar-brand" href="#">WeatherApp</a>
-            
-            <!-- Links -->
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link 1</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link 2</a>
-                </li>
-                
-                <!-- Dropdown -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                        Dropdown link
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Link 1</a>
-                        <a class="dropdown-item" href="#">Link 2</a>
-                        <a class="dropdown-item" href="#">Link 3</a>
-                    </div>
-                </li>
-            </ul>
+            <a class="navbar-brand" href="/generalForecast">WeatherApp</a>
         </nav>
         
         <div class="jumbotron" style="background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg);">
@@ -101,9 +80,9 @@
                             <div class="weather-part-third border" on>
                                 <div class="row">
                                     <div class="col-lg-12 weather-part-third-image">
-                                        <img src="img/weather_clear_sky.png" style="padding:25px">
+                                        <img src="https://cdn.oculosshop.com.br/media/catalog/product/placeholder/default/placeholder-image_1.png" th:name="${forecast.value.weather}" onload="this.onload=null; getImagePath(this, this.name)" style="padding:25px; max-width: 100%">
                                         <br>
-                                        <strong style="text-align:center" th:text="${T(weather_app.constants.Constants).dateToDayOfWeek(forecast.key)}">xxx</strong>
+                                        <strong style="text-align:center" th:text="${forecast.value.weekDay}">xxx</strong>
                                         <br>
                                         <span style="text-align:center; margin-bottom:7px" th:text="${forecast.key}"></span>
                                     </div>

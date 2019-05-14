@@ -8,6 +8,8 @@ package weather_app.ipma;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+import org.springframework.web.client.RestTemplate;
+import weather_app.restapi.WeatherApp;
 import static weather_app.restapi.WeatherApp.logger;
 import static weather_app.restapi.WeatherApp.restTemplate;
 import x.WeatherTypeIpma;
@@ -21,8 +23,15 @@ import x.WindTypeResponseIpma;
  */
 public class IpmaCalls
 {
-    private static GeneralForecastIpma getBaseInfo(String city)
+    RestTemplate restTemplate; 
+
+    
+
+    public  GeneralForecastIpma getBaseInfo(String city)
     {
+        if(restTemplate == null)
+            restTemplate=WeatherApp.restTemplate;
+            
         //get city ID
         PortugalDistrictsIpma pd = restTemplate.getForObject("http://api.ipma.pt/open-data/distrits-islands.json", PortugalDistrictsIpma.class);
         
@@ -32,14 +41,15 @@ public class IpmaCalls
                 id=d.getGlobalIdLocal();
         
         // get info for that district
-        GeneralForecastIpma gf = restTemplate.getForObject("http://api.ipma.pt/open-data/forecast/meteorology/cities/daily/"+id+".json", GeneralForecastIpma.class);
-        return gf;
+        return restTemplate.getForObject("http://api.ipma.pt/open-data/forecast/meteorology/cities/daily/"+id+".json", GeneralForecastIpma.class);
     }
     
-    private static WeatherTypeIpma getWeatherType(int id)
+    public WeatherTypeIpma getWeatherType(int id)
     {
-        WeatherTypeResponseIpma wtr = restTemplate.getForObject("http://api.ipma.pt/open-data/weather-type-classe.json", WeatherTypeResponseIpma.class);
+        if(restTemplate == null)
+            restTemplate=WeatherApp.restTemplate;
         
+        WeatherTypeResponseIpma wtr = restTemplate.getForObject("http://api.ipma.pt/open-data/weather-type-classe.json", WeatherTypeResponseIpma.class);
         for(WeatherTypeIpma wt : wtr.getData())
             if(wt.getIdWeatherType() == id)
                 return wt;
@@ -47,10 +57,12 @@ public class IpmaCalls
         return null;
     }
     
-    private static WindTypeIpma getWindType(int id)
+    public  WindTypeIpma getWindType(int id)
     {
-        WindTypeResponseIpma wtr = restTemplate.getForObject("http://api.ipma.pt/open-data/wind-speed-daily-classe.json", WindTypeResponseIpma.class);
+        if(restTemplate == null)
+            restTemplate=WeatherApp.restTemplate;
         
+        WindTypeResponseIpma wtr = restTemplate.getForObject("http://api.ipma.pt/open-data/wind-speed-daily-classe.json", WindTypeResponseIpma.class);
         for(WindTypeIpma wt : wtr.getData())
             if(wt.getClassWindSpeed().equals(id+""))
                 return wt;
@@ -59,13 +71,15 @@ public class IpmaCalls
     }
     
     
-    public static  Map<String, Double> getTemperatures(String city)
+    public  Map<String, Double> getTemperatures(String city)
     {
         try {
             Map<String, Double> ipmaInfo = new TreeMap<>();
             GeneralForecastIpma gf = getBaseInfo(city);
             for(DailyForecastIpma df : gf.getData())
+            {
                 ipmaInfo.put(df.getForecastDate(), (Double.parseDouble(df.getTMin()) + Double.parseDouble(df.getTMax()))/2);
+            }
             
             return ipmaInfo;
         }
@@ -77,7 +91,7 @@ public class IpmaCalls
     }
     
     
-    public static Map<String, Map<String, String>> getForecast(String city)
+    public Map<String, Map<String, String>> getForecast(String city)
     {
         try {
             Map<String, Map<String, String>> ipmaInfo = new TreeMap<>();
@@ -97,12 +111,12 @@ public class IpmaCalls
                 WeatherTypeIpma weatherTypeIpma = getWeatherType(df.getIdWeatherType());
                 if(weatherTypeIpma!=null) tmp.put("weather",weatherTypeIpma.getDescIdWeatherTypeEN());
                 else tmp.put("weather","none"); 
-                
+                                    
                 WindTypeIpma windTypeIpma =  getWindType(df.getClassWindSpeed()); 
                 if(windTypeIpma!=null) tmp.put("windIntensity",windTypeIpma.getDescClassWindSpeedDailyEN());
                 else tmp.put("windIntensity","none"); 
-                                
-                ipmaInfo.put(df.getForecastDate(), tmp);
+                                 
+                ipmaInfo.put(df.getForecastDate(), tmp);                
             }
             return ipmaInfo;
         }
@@ -112,4 +126,10 @@ public class IpmaCalls
             return null;
         }
     }
+    
+    public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+    
+    
 }

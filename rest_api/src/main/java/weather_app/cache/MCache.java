@@ -33,9 +33,9 @@ public class MCache
         
     }
 
-    public void add(String key, Object value, long ttl)
+    public boolean add(String key, Object value, long ttl)
     {
-        if (key == null) {return;}
+        if (key == null) {return false;}
         
         if (value == null)
             delete(key);
@@ -44,7 +44,9 @@ public class MCache
             long deleteTime = System.currentTimeMillis() + ttl * 1000;
             deleteTimes.put(key, deleteTime);
             cache.put(key, value);
+            return true;
         }
+        return false;
     }
     
     
@@ -82,6 +84,7 @@ public class MCache
     {
         Thread thread = new Thread()
         {
+            @Override
             public void run()
             {
                 while(true)
@@ -92,7 +95,7 @@ public class MCache
                     {
                         if(deleteTimes.get(k) <  System.currentTimeMillis())
                         {
-                            logger.info("Deleted key: " + k);
+                            logger.info( "Deleted key: " + k);
                             delete(k);
                         }
                     }

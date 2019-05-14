@@ -10,18 +10,16 @@ import org.springframework.web.client.RestTemplate;
 import weather_app.cache.MCache;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"weather_app.web.controllers"} )
+@ComponentScan(basePackages = {"weather_app.web.controllers", "weather_app.restapi.mappings"} )
 
 public class WeatherApp{
     
     public static final Logger logger = LoggerFactory.getLogger(WeatherApp.class);
     public static final RestTemplate restTemplate = new RestTemplate();
-    
-    public static MCache mCache = null;
+    public static MCache mCache;
     
     public static void main(String[] args) throws InterruptedException {
         SpringApplication app = new SpringApplication(WeatherApp.class);
-        app.setDefaultProperties(Collections.singletonMap("server.port", "8081"));
         app.run(args);
         try{  mCache = new MCache(30);}
         catch(Exception e){}

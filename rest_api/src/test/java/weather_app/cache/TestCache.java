@@ -12,8 +12,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.gen5.api.Assertions.assertThrows;
-import org.junit.gen5.api.DisplayName;
 import weather_app.constants.Converters;
 
 /**
@@ -40,7 +38,6 @@ public class TestCache
     
     
     @Test
-    @DisplayName("addCache")
     public void addCache() throws InterruptedException
     {    
         MCache mCache = new MCache(30);
@@ -56,7 +53,6 @@ public class TestCache
     
     
     @Test
-    @DisplayName("getCache")
     public void getCache() throws InterruptedException
     {        
         MCache mCache = new MCache(30);
@@ -68,7 +64,6 @@ public class TestCache
     
     
     @Test
-    @DisplayName("deleteCache")
     public void deleteCache() throws InterruptedException
     {        
         MCache mCache = new MCache(30);
@@ -78,7 +73,6 @@ public class TestCache
     
     
     @Test
-    @DisplayName("clearCache")
     public void clearCache() throws InterruptedException
     {        
         MCache mCache = new MCache(30);
@@ -89,7 +83,6 @@ public class TestCache
     
     
     @Test
-    @DisplayName("cleaningThread")
     public void cleaningThread() throws InterruptedException
     {       
         Semaphore sem = new Semaphore(1); 
@@ -113,7 +106,6 @@ public class TestCache
     }
     
     @Test
-    @DisplayName("hitsCache")
     public void hitsCache() throws InterruptedException
     {        
         MCache mCache = new MCache(30);
@@ -125,7 +117,6 @@ public class TestCache
     
     
     @Test
-    @DisplayName("missesCache")
     public void missesCache() throws InterruptedException
     {        
         MCache mCache = new MCache(30);
@@ -134,7 +125,6 @@ public class TestCache
     }
     
     @Test
-    @DisplayName("cleanupTimeCache")
     public void cleanupTimeCache() throws InterruptedException
     {        
         MCache mCache = new MCache(30);
