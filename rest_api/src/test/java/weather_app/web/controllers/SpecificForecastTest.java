@@ -48,12 +48,14 @@ public class SpecificForecastTest {
     String tMaxGeneral = driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Tuesday'])[1]/following::span[2]")).getText();
     String tMinGeneral = driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Tuesday'])[1]/following::span[3]")).getText();
     driver.findElement(By.name("Partly cloudy")).click();
-    assertEquals("Aveiro", driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='WeatherApp'])[2]/following::h1[1]")).getText());
-    
-    
-    assertEquals(converters.dateToString(today), driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Aveiro'])[1]/following::h2[1]")).getText());
-    assertEquals(tMinGeneral, driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Partly cloudy'])[1]/following::span[1]")).getText());
-    assertEquals(tMaxGeneral, driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='ºC'])[1]/following::span[1]")).getText());
+    assertEquals("Aveiro", 
+            driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='WeatherApp'])[2]/following::h1[1]")).getText());
+    assertEquals(converters.dateToString(today), 
+            driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Aveiro'])[1]/following::h2[1]")).getText());
+    assertEquals(tMinGeneral, 
+            driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Partly cloudy'])[1]/following::span[1]")).getText());
+    assertEquals(tMaxGeneral, 
+            driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='ºC'])[1]/following::span[1]")).getText());
   }
 
   @After

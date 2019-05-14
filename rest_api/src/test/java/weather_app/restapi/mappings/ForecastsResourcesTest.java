@@ -13,9 +13,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import static org.hamcrest.Matchers.is;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -29,7 +26,6 @@ import org.mockito.MockitoAnnotations;
 import weather_app.cache.MCache;
 import weather_app.constants.Constants;
 import weather_app.ipma.IpmaCalls;
-import weather_app.openweather.DataType;
 import weather_app.openweather.OpenWeatherCalls;
 
 /**
@@ -42,11 +38,11 @@ public class ForecastsResourcesTest {
     }
     
     @InjectMocks
-            ForecastsResources forecastsResources = new ForecastsResources();
+    ForecastsResources forecastsResources = new ForecastsResources();
     @Mock
-            OpenWeatherCalls openWeatherCallsMockito = new OpenWeatherCalls();
+    OpenWeatherCalls openWeatherCallsMockito = new OpenWeatherCalls();
     @Mock
-            IpmaCalls ipmaCallsMockito = new IpmaCalls();
+    IpmaCalls ipmaCallsMockito = new IpmaCalls();
     
     private String baseUrl = "localhost:8080/api/";
     
