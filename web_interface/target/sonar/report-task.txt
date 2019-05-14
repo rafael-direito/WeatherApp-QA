@@ -1,7 +1,0 @@
-organization=rafadireito-github
-projectKey=rafadireito_WeatherApp-QA
-serverUrl=https://sonarcloud.io
-serverVersion=7.8.0.24676
-dashboardUrl=https://sonarcloud.io/dashboard?id=rafadireito_WeatherApp-QA
-ceTaskId=AWqsLmi7gvTe5u3ZTlak
-ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AWqsLmi7gvTe5u3ZTlak

@@ -1,153 +1,0 @@
-
-ãcontrollers.GeneralForecastController#generalForecast(Ljava/lang/String;Ljava/lang/String;Lorg/springframework/ui/Model;)Ljava/lang/String;è
-Ñ/Users/rd/Desktop/UA/UA_6_Semestre/TQS/Homework/WeatherApp-QA/web_interface/src/main/java/controllers/GeneralForecastController.java (!"paramAnnotations*∏
-paramAnnotationsè
-Ñ/Users/rd/Desktop/UA/UA_6_Semestre/TQS/Homework/WeatherApp-QA/web_interface/src/main/java/controllers/GeneralForecastController.java!  (¸
-˘
-è
-Ñ/Users/rd/Desktop/UA/UA_6_Semestre/TQS/Homework/WeatherApp-QA/web_interface/src/main/java/controllers/GeneralForecastController.java (#
-%10"
-__annotate*64
-2org.springframework.web.bind.annotation.GetMapping*
-
-cityjava.lang.String˛
-˚
-è
-Ñ/Users/rd/Desktop/UA/UA_6_Semestre/TQS/Homework/WeatherApp-QA/web_interface/src/main/java/controllers/GeneralForecastController.java (M
-%11"
-__annotate*86
-4org.springframework.web.bind.annotation.RequestParam*
-
-cityjava.lang.Stringœ
-Ã
-è
-Ñ/Users/rd/Desktop/UA/UA_6_Semestre/TQS/Homework/WeatherApp-QA/web_interface/src/main/java/controllers/GeneralForecastController.javaU (Y
-cityjava.lang.String"__annotation*
-
-%10*
-
-%11ˇ
-¸
-è
-Ñ/Users/rd/Desktop/UA/UA_6_Semestre/TQS/Homework/WeatherApp-QA/web_interface/src/main/java/controllers/GeneralForecastController.java (#
-%12"
-__annotate*64
-2org.springframework.web.bind.annotation.GetMapping*
-
-numDaysjava.lang.StringÅ
-˛
-è
-Ñ/Users/rd/Desktop/UA/UA_6_Semestre/TQS/Homework/WeatherApp-QA/web_interface/src/main/java/controllers/GeneralForecastController.java (K
-%13"
-__annotate*86
-4org.springframework.web.bind.annotation.RequestParam*
-
-numDaysjava.lang.String“
-œ
-è
-Ñ/Users/rd/Desktop/UA/UA_6_Semestre/TQS/Homework/WeatherApp-QA/web_interface/src/main/java/controllers/GeneralForecastController.javaS (Z
-numDaysjava.lang.String"__annotation*
-
-%12*
-
-%13â
-Ü
-è
-Ñ/Users/rd/Desktop/UA/UA_6_Semestre/TQS/Homework/WeatherApp-QA/web_interface/src/main/java/controllers/GeneralForecastController.java (#
-%14"
-__annotate*64
-2org.springframework.web.bind.annotation.GetMapping*'
-%
-modelorg.springframework.ui.Model”
-–
-è
-Ñ/Users/rd/Desktop/UA/UA_6_Semestre/TQS/Homework/WeatherApp-QA/web_interface/src/main/java/controllers/GeneralForecastController.java   (%
-modelorg.springframework.ui.Model"__annotation*
-
-%14*
-1*∏
-1è
-Ñ/Users/rd/Desktop/UA/UA_6_Semestre/TQS/Homework/WeatherApp-QA/web_interface/src/main/java/controllers/GeneralForecastController.java#9 #(E÷
-”
-è
-Ñ/Users/rd/Desktop/UA/UA_6_Semestre/TQS/Homework/WeatherApp-QA/web_interface/src/main/java/controllers/GeneralForecastController.java#9 #(E1
-%0+org.springframework.web.client.RestTemplate"__id*
-""‰
-·
-ê
-Ñ/Users/rd/Desktop/UA/UA_6_Semestre/TQS/Homework/WeatherApp-QA/web_interface/src/main/java/controllers/GeneralForecastController.java#S #(Ä
-%1java.lang.String"`constants.Constants#buildGeneralInfoPath(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;*"
-constants.Constants*
-
-cityjava.lang.String*
-
-numDaysjava.lang.String—Œ
-ê
-Ñ/Users/rd/Desktop/UA/UA_6_Semestre/TQS/Homework/WeatherApp-QA/web_interface/src/main/java/controllers/GeneralForecastController.java#9 #(ê
-%2java.util.TreeMap"Çorg.springframework.web.client.RestTemplate#getForObject(Ljava/lang/String;Ljava/lang/Class;[Ljava/lang/Object;)Ljava/lang/Object;*3
-1
-%0+org.springframework.web.client.RestTemplate*
-
-%1java.lang.String*
-""2DgetForObject(Ljava/lang/String;Ljava/lang/Class;[Ljava/lang/Object;)◊
-‘
-ê
-Ñ/Users/rd/Desktop/UA/UA_6_Semestre/TQS/Homework/WeatherApp-QA/web_interface/src/main/java/controllers/GeneralForecastController.java# #(ë
-	forecastsjava.util.TreeMap"__id*
-
-%2java.util.TreeMap´®
-è
-Ñ/Users/rd/Desktop/UA/UA_6_Semestre/TQS/Homework/WeatherApp-QA/web_interface/src/main/java/controllers/GeneralForecastController.java% %(("
-%3org.springframework.ui.Model"morg.springframework.ui.Model#addAttribute(Ljava/lang/String;Ljava/lang/Object;)Lorg/springframework/ui/Model;*'
-%
-modelorg.springframework.ui.Model*
-city*
-
-cityjava.lang.String22addAttribute(Ljava/lang/String;Ljava/lang/Object;)á
-Ñ
-è
-Ñ/Users/rd/Desktop/UA/UA_6_Semestre/TQS/Homework/WeatherApp-QA/web_interface/src/main/java/controllers/GeneralForecastController.java&& &(?	
-%4int"/java.lang.Integer#parseInt(Ljava/lang/String;)I*"
-java.lang.Integer*
-
-numDaysjava.lang.Stringüú
-è
-Ñ/Users/rd/Desktop/UA/UA_6_Semestre/TQS/Homework/WeatherApp-QA/web_interface/src/main/java/controllers/GeneralForecastController.java& &(@"
-%5org.springframework.ui.Model"morg.springframework.ui.Model#addAttribute(Ljava/lang/String;Ljava/lang/Object;)Lorg/springframework/ui/Model;*'
-%
-modelorg.springframework.ui.Model*	
-numDays*
-	
-%4int22addAttribute(Ljava/lang/String;Ljava/lang/Object;)∂≥
-è
-Ñ/Users/rd/Desktop/UA/UA_6_Semestre/TQS/Homework/WeatherApp-QA/web_interface/src/main/java/controllers/GeneralForecastController.java' '(2"
-%6org.springframework.ui.Model"morg.springframework.ui.Model#addAttribute(Ljava/lang/String;Ljava/lang/Object;)Lorg/springframework/ui/Model;*'
-%
-modelorg.springframework.ui.Model*
-	forecasts* 
-
-	forecastsjava.util.TreeMap22addAttribute(Ljava/lang/String;Ljava/lang/Object;)œÃ
-è
-Ñ/Users/rd/Desktop/UA/UA_6_Semestre/TQS/Homework/WeatherApp-QA/web_interface/src/main/java/controllers/GeneralForecastController.java(5 ((G
-%7forms.ForecastNumberDays"forms.ForecastNumberDays·
-ﬁ
-è
-Ñ/Users/rd/Desktop/UA/UA_6_Semestre/TQS/Homework/WeatherApp-QA/web_interface/src/main/java/controllers/GeneralForecastController.java(1 ((I
-%8""forms.ForecastNumberDays#<init>()V* 
-
-%7forms.ForecastNumberDaysøº
-è
-Ñ/Users/rd/Desktop/UA/UA_6_Semestre/TQS/Homework/WeatherApp-QA/web_interface/src/main/java/controllers/GeneralForecastController.java( ((J"
-%9org.springframework.ui.Model"morg.springframework.ui.Model#addAttribute(Ljava/lang/String;Ljava/lang/Object;)Lorg/springframework/ui/Model;*'
-%
-modelorg.springframework.ui.Model*
-forecastNumberDays* 
-
-%7forms.ForecastNumberDays22addAttribute(Ljava/lang/String;Ljava/lang/Object;)"ß
-è
-Ñ/Users/rd/Desktop/UA/UA_6_Semestre/TQS/Homework/WeatherApp-QA/web_interface/src/main/java/controllers/GeneralForecastController.java* *(!
-generalForecast:
-cityjava.lang.String:
-numDaysjava.lang.String:%
-modelorg.springframework.ui.ModelB)'
-%controllers.GeneralForecastController

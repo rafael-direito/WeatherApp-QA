@@ -92,9 +92,6 @@ public class HumidityResourcesTest {
                         then().
                         extract().response();
         
-
-        int size = response.body().path("size()");        
-        assertEquals(5, size);
         
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
