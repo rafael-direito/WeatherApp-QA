@@ -30,7 +30,7 @@ public class SpecificForecastTest {
     Date date = new Date();
     today = dateFormat.format(date).toString();
         
-    driver = new ChromeDriver();
+    driver = new FirefoxDriver();
     baseUrl = "https://www.katalon.com/";
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }

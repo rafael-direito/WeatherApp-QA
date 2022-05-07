@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -18,7 +19,7 @@ public class GeneralForecastTest {
 
   @Before
   public void setUp() throws Exception {
-    driver = new ChromeDriver();
+    driver = new FirefoxDriver();
     baseUrl = "https://www.katalon.com/";
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
       System.out.println("banana");
