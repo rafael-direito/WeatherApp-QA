@@ -11,11 +11,11 @@ node{
     //    }
     //}
 
-    stage ('Integration Tests - External Sources') {
-        dir('rest_api') {
-            sh "mvn -Dtest=IpmaCallsTest test"
-        }
-    }
+    //stage ('Integration Tests - External Sources') {
+    //    dir('rest_api') {
+    //        sh "mvn -Dtest=IpmaCallsTest test"
+    //    }
+    //}
 
     stage ('Integration Tests - Internal Sources') {
         dir('rest_api') {
@@ -41,7 +41,7 @@ node{
             }
 
             // Kill the application
-            sh "sudo kill -9 \$(sudo lsof -t -i:9001) || true"
+            sh "sudo kill -9 \\$(sudo lsof -t -i:9001) || true"
 
 
         }
