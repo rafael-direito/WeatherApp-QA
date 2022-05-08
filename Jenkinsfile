@@ -31,11 +31,11 @@ node{
             // Wait for the application to be ready (max timeout -> 2 min.)
             def count = 1
             def app_running = false
-            while(count <= 12) {
+            while(count <= 1) {
                 echo "Checking if the application is running on localhost:9001 (try: $count)"
                 status = sh (script: "curl -I http://localhost:9001", returnStatus: true)
                 if (status == 0) {
-                    app_running = true
+                    //app_running = true
                     echo "Application is running on localhost:9001"
                     break
                 }
@@ -43,6 +43,15 @@ node{
                 sleep(10)
                 count++
             }
+
+            // if the application is not running, fail the test
+            if (!app_running) {
+                echo "Application is not running on localhost:9001"
+                error("Application is not running on localhost:9001. Cannot continue with the tests.")
+
+            }
+            // Run the tests
+
 
             // Kill the application
             sh "kill -9 `lsof -t -i:9001` || true"
