@@ -33,7 +33,8 @@ node{
             def app_running = false
             while(count <= 12) {
                 echo "Checking if the application is running on localhost:9001 (try: $count)"
-                if (exec("curl -I http://localhost:9001").stdout.contains("application/json")) {
+                status = sh (script: "curl -I http://localhost:9001", returnStatus: true)
+                if (${STATUS} == 0) {
                     app_running = true
                     echo "Application is running on localhost:9001"
                     break
