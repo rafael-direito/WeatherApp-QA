@@ -118,7 +118,7 @@ node{
                 //sh 'ssh -o StrictHostKeyChecking=no user@hostname.com uptime'
                 //sh 'ssh -v user@hostname.com'
                 sh """scp ${jar_file_name} jenkins@10.0.12.78:~/"""
-                sh """nohup java -jar  -Dserver.port=8083 -Dserver.address=0.0.0.0 ${jar_file_name}"""
+                sh """ sh -o StrictHostKeyChecking=no jenkins@10.0.12.78 java -jar  -Dserver.port=8083 -Dserver.address=0.0.0.0 ${jar_file_name}"""
             }
          
 
