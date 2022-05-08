@@ -130,13 +130,16 @@ node{
         }
     }
 
-    stage ('Deploy to production') {
-            when {
-                // Only say hello if a "greeting" is requested
-                expression { params.DEPLOY_TO_PRODUCTION == 'Yes' }
-            }
-            steps {
-                echo "Hello, bitwiseman!"
+    stage('Wait for user to input text?') {
+        steps {
+            script {
+                def userInput = input(id: 'userInput', message: 'Merge to?',
+                parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
+                    description:'describing choices', name:'nameChoice', choices: "QA\nUAT\nProduction\nDevelop\nMaster"]
+                ])
+
+                println(userInput); //Use this value to branch to different logic if needed
             }
         }
+    }
 }
