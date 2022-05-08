@@ -113,7 +113,7 @@ node{
             // Package the application
             sh "mvn clean package -Dmaven.test.skip"
             def jar_file_location = sh (script: "ls target/*.jar", returnStdout: true).trim()
-            def jar_file_name = jar_file_location.split('/')[1] + " & && echo Running"
+            def jar_file_name = jar_file_location.split('/')[1] + " &"
 
             sshagent(credentials : ['atnog-cicd-classes.av.it.pt-ssh']) {
 
