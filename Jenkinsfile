@@ -34,7 +34,7 @@ node{
             while(count <= 12) {
                 echo "Checking if the application is running on localhost:9001 (try: $count)"
                 status = sh (script: "curl -I http://localhost:9001", returnStatus: true)
-                if (STATUS == 0) {
+                if (status == 0) {
                     app_running = true
                     echo "Application is running on localhost:9001"
                     break
