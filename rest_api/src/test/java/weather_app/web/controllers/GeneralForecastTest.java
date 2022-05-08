@@ -3,15 +3,19 @@ package weather_app.web.controllers;
 import java.util.concurrent.TimeUnit;
 import org.junit.*;
 import static org.junit.Assert.*;
+import static weather_app.web.controllers.Constants.BASE_URL;
+
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.Select;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GeneralForecastTest {
+  private FirefoxOptions options = new FirefoxOptions();
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -19,7 +23,8 @@ public class GeneralForecastTest {
 
   @Before
   public void setUp() throws Exception {
-    driver = new FirefoxDriver();
+    options.addArguments("--headless");
+    driver = new FirefoxDriver(options);
     baseUrl = "https://www.katalon.com/";
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
       System.out.println("banana");
@@ -28,7 +33,7 @@ public class GeneralForecastTest {
 
   @Test
   public void testTQSHomework() throws Exception {
-    driver.get("http://localhost:8080/generalForecast");
+    driver.get(BASE_URL + "/generalForecast");
     driver.findElement(By.id("inlineFormInputGroupUsername2")).click();
     driver.findElement(By.id("inlineFormInputGroupUsername2")).clear();
     driver.findElement(By.id("inlineFormInputGroupUsername2")).sendKeys("Coimbra");
