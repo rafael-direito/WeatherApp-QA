@@ -26,7 +26,7 @@ node{
             sh "echo 'Updating the application s properties'"
             sh "echo 'server.port=9001' >  src/main/resources/application.properties"
             sh "echo 'Running the application on port 9001'"
-            sh "mvn install -DskipTests \\\&"
+            sh "mvn install -DskipTests \\\\&"
 
             // Wait for the application to be ready (max timeout -> 2 min.)
             def count = 1
