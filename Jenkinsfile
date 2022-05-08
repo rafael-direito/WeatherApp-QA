@@ -113,13 +113,13 @@ node{
             // Package the application
             sh "mvn clean package -Dmaven.test.skip"
             def jar_file_location = sh (script: "ls target/*.jar", returnStdout: true).trim()
-            def jar_file_name = jar_file_location.split('/')[1]
+            def jar_file_name = jar_file_location.split('/')[1] + " &"
 
             sshagent(credentials : ['atnog-cicd-classes.av.it.pt-ssh']) {
 
                 sh "scp -o StrictHostKeyChecking=no '${jar_file_location}' jenkins@10.0.12.78:~/"
                 sh "ssh -o StrictHostKeyChecking=no jenkins@10.0.12.78 kill -9 `lsof -t -i:9005` ||  true"
-                sh """ssh -o StrictHostKeyChecking=no jenkins@10.0.12.78 nohup java -jar  -Dserver.port=9005 -Dserver.address=localhost '${jar_file_name}' &"""
+                sh "ssh -o StrictHostKeyChecking=no jenkins@10.0.12.78  java -jar  -Dserver.port=9005 -Dserver.address=localhost '${jar_file_name}'"
             }
         }
     }
