@@ -2,6 +2,13 @@ node{
 
     git branch: "master", url: "https://github.com/rafael-direito/WeatherApp-QA" 
 
+    parameters {
+        choice(
+            choices: ['Yes' , 'No'],
+            description: 'Do you want to deploy this build to production?',
+            name: 'DEPLOY_TO_PRODUCTION')
+    }
+
     //stage ('Unit Tests') {
     //    dir('rest_api') {
     //        sh "mvn -Dtest=TestCache test"
@@ -118,8 +125,18 @@ node{
             sshagent(credentials : ['atnog-cicd-classes.av.it.pt-ssh']) {
 
                 sh "scp -o StrictHostKeyChecking=no '${jar_file_location}' jenkins@10.0.12.78:~/"
-                sh "ssh -o StrictHostKeyChecking=no jenkins@10.0.12.78  bash run_staging.sh '${jar_file_name}'"
+                sh "ssh -o StrictHostKeyChecking=no jenkins@10.0.12.78  bash run_WeatherApp-QA_staging.sh '${jar_file_name}'"
             }
         }
     }
+
+    stage ('Deploy to production') {
+            when {
+                // Only say hello if a "greeting" is requested
+                expression { params.DEPLOY_TO_PRODUCTION == 'Yes' }
+            }
+            steps {
+                echo "Hello, bitwiseman!"
+            }
+        }
 }
