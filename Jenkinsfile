@@ -113,7 +113,14 @@ node{
             // Package the application
             sh "mvn clean package -Dmaven.test.skip"
             jar_file_name = sh (script: "ls target/*.jar", returnStdout: true)
-            sh """java -jar  -Dserver.port=8083 -Dserver.address=0.0.0.0 ${jar_file_name} &"""
+
+            sshagent(credentials : ['atnog-cicd-classes.av.it.pt-ssh']) {
+                //sh 'ssh -o StrictHostKeyChecking=no user@hostname.com uptime'
+                //sh 'ssh -v user@hostname.com'
+                sh """scp ${jar_file_name} jenkins@10.0.12.78:~/"""
+                sh """nohup java -jar  -Dserver.port=8083 -Dserver.address=0.0.0.0 ${jar_file_name}"""'
+            }
+         
 
         }
     }
