@@ -114,9 +114,11 @@ node{
     //}
 
     stage('SonarQube analysis') {
+        dir('rest_api') {
             withSonarQubeEnv('Sonar') {
                 sh "mvn  clean install  -Dmaven.test.skip"
             
+            }
         }
     }
     stage("Quality gate") {
