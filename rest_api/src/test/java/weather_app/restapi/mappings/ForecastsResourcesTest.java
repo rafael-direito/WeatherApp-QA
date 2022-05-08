@@ -19,32 +19,44 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.context.web.WebAppConfiguration;
 import weather_app.cache.MCache;
 import weather_app.constants.Constants;
 import weather_app.ipma.IpmaCalls;
 import weather_app.openweather.OpenWeatherCalls;
+import weather_app.restapi.WeatherApp;
 
 /**
  *
  * @author rd
  */
+@RunWith(MockitoJUnitRunner.class)
 public class ForecastsResourcesTest {
     
     public ForecastsResourcesTest() {
     }
-    
+
+    int port = 8080;
+
     @InjectMocks
     ForecastsResources forecastsResources = new ForecastsResources();
     @Mock
     OpenWeatherCalls openWeatherCallsMockito = new OpenWeatherCalls();
     @Mock
     IpmaCalls ipmaCallsMockito = new IpmaCalls();
-    
-    private String baseUrl = "localhost:8080/api/";
+
+
+    private String baseUrl = "http://localhost:" + port + "/api/";
     
     @BeforeClass
     public static void setUpClass() {
@@ -68,23 +80,24 @@ public class ForecastsResourcesTest {
     @Test
     public void testGeneralForecastStatusCode()
     {
+        System.out.println("HERE -> " + baseUrl);
         RestAssured
                 .given()
                 .when()
-                .get("http://localhost:8080/api/general_info/Aveiro/3")
+                .get(baseUrl + "general_info/Aveiro/3")
                     .then()
                 .statusCode(200)
                 .and()
                     .contentType(ContentType.JSON);
     }
-    
+
     @Test
     public void testGeneralForecast()
     {   
         Response  response =
                 RestAssured.given().
                         when().
-                        get("http://localhost:8080/api/general_info/Aveiro/3").then().
+                        get(baseUrl + "general_info/Aveiro/3").then().
                         extract().response();
         
 
@@ -105,11 +118,10 @@ public class ForecastsResourcesTest {
         Date date = new Date();
         String today = dateFormat.format(date).toString();
         
-        System.out.println("333" +  "http://localhost:8080/api/general_info/Lisboa/" + today);
         RestAssured
                 .given()
                 .when()
-                .get("http://localhost:8080/api/specific_info/Lisboa/" + today)
+                .get(baseUrl + "specific_info/Lisboa/" + today)
                     .then()
                 .statusCode(200)
                 .and()
@@ -126,7 +138,7 @@ public class ForecastsResourcesTest {
         Response  response =
                 RestAssured.given().
                         when().
-                        get("http://localhost:8080/api/specific_info/Aveiro/" + today ).then().
+                        get(baseUrl + "specific_info/Aveiro/" + today ).then().
                         extract().response();
         
 
@@ -376,6 +388,8 @@ public class ForecastsResourcesTest {
         assertEquals(true, forecastsResources.isEligible(mMap, "key", "ola"));
         assertEquals(false, forecastsResources.isEligible(mMap, "xx", "ola"));
     }
+
+
     
     
     

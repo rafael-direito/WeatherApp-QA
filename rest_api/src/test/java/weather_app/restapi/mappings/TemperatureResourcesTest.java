@@ -66,6 +66,7 @@ public class TemperatureResourcesTest {
     public void tearDown() {
     }
 
+
     
     @Test
     public void testApiTemperaturesStatusCodeDay()
@@ -219,9 +220,6 @@ public class TemperatureResourcesTest {
     }
     
 
-    /**
-     * Test of generateTemperatureByDay method, of class TemperatureResources.
-     */
     @Test
     public void testGenerateTemperatureByDay() 
     {
@@ -264,4 +262,6 @@ public class TemperatureResourcesTest {
         Mockito.when(ipmaCallsMockito.getTemperatures("Aveiro")).thenReturn(null);
         assertEquals(temperatureResources.generateTemperatureByDay("Aveiro"), new HashMap<String, Double>()); 
     }
+
+
 }

@@ -35,7 +35,7 @@ public class TestCalculations
     public void tearDown() {}
     
     
-    
+    /*
     @Test
     public void mostCommonElement()
     {
@@ -47,6 +47,8 @@ public class TestCalculations
     {
         assert(2.0 == calculations.averageDoubleFromArray(new String[] {"3", "1", "2"}));
     }
+
+     */
     
     
 

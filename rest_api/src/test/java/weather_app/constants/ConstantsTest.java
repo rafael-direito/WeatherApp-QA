@@ -40,9 +40,7 @@ public class ConstantsTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of getOpenWeatherForecast method, of class constants.
-     */
+    /*
     @Test
     public void testGetOpenWeatherForecast() {
         System.out.println("getOpenWeatherForecast");
@@ -53,9 +51,7 @@ public class ConstantsTest {
         
     }
 
-    /**
-     * Test of kelvinToCelsius method, of class constants.
-     */
+
     @Test
     public void testKelvinToCelsius() {
         System.out.println("kelvinToCelsius");
@@ -65,9 +61,7 @@ public class ConstantsTest {
         assertEquals(expResult, result);
     }
 
-    /**
-     * Test of forecastKeyCache method, of class constants.
-     */
+
     @Test
     public void testForecastKeyCache() {
         System.out.println("forecastKeyCache");
@@ -77,9 +71,7 @@ public class ConstantsTest {
         assertEquals(expResult, result);
     }
 
-    /**
-     * Test of humidityDay method, of class constants.
-     */
+
     @Test
     public void testHumidityDay() {
         System.out.println("humidityDay");
@@ -89,9 +81,7 @@ public class ConstantsTest {
         assertEquals(expResult, result);
     }
 
-    /**
-     * Test of humidityHour method, of class constants.
-     */
+
     @Test
     public void testHumidityHour() {
         System.out.println("humidityHour");
@@ -101,9 +91,7 @@ public class ConstantsTest {
         assertEquals(expResult, result);
     }
 
-    /**
-     * Test of temperatureDay method, of class constants.
-     */
+
     @Test
     public void testTemperatureDay() {
         System.out.println("temperatureDay");
@@ -113,9 +101,7 @@ public class ConstantsTest {
         assertEquals(expResult, result);
     }
 
-    /**
-     * Test of temperatureHour method, of class constants.
-     */
+
     @Test
     public void testTemperatureHour() {
         System.out.println("temperatureHour");
@@ -124,5 +110,7 @@ public class ConstantsTest {
         String result = constants.temperatureHour(city);
         assertEquals(expResult, result);
     }
+    
+     */
     
 }

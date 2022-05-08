@@ -194,4 +194,6 @@ public class HumidityResourcesTest {
         
         assertEquals(humidityResources.getHumidityByHour("Aveiro"), (HashMap<String, Double>) expected);
     }
+
+
 }

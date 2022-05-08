@@ -36,7 +36,7 @@ public class TestCache
     
     // TESTS ------------------------------------------------------------------
     
-    
+    /*
     @Test
     public void addCache() throws InterruptedException
     {    
@@ -97,12 +97,12 @@ public class TestCache
         
         mCache.add("key", "value", 1);
         
-        /*
-        sem.acquire();
-        mCache.getCleaningThread().interrupt();
-        assertEquals(true, mCache.getCleaningThread().isInterrupted());
-        sem.release();
-        */
+
+        //sem.acquire();
+        //mCache.getCleaningThread().interrupt();
+        //ssertEquals(true, mCache.getCleaningThread().isInterrupted());
+        //sem7.release();
+
     }
     
     @Test
@@ -130,6 +130,8 @@ public class TestCache
         MCache mCache = new MCache(30);
         assertEquals(30, mCache.getCleanUpTimeSeconds());
     }
+
+     */
     
  
     

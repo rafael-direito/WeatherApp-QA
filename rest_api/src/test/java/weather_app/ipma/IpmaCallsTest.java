@@ -62,7 +62,7 @@ public class IpmaCallsTest {
     /**
      * Test of getTemperatures method, of class IpmaCalls.
      */
-    
+
     @Test
     public void getBasicInfo() 
     {
@@ -281,5 +281,4 @@ public class IpmaCallsTest {
         assertEquals(ipmaInfo, ipmaCalls.getForecast("Aveiro"));
         assertEquals(null, ipmaCalls.getForecast("Null"));
     }
-    
 }

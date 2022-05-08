@@ -25,6 +25,7 @@ public class GeneralForecastTest {
       System.out.println("banana");
   }
 
+
   @Test
   public void testTQSHomework() throws Exception {
     driver.get("http://localhost:8080/generalForecast");
@@ -80,4 +81,5 @@ public class GeneralForecastTest {
       acceptNextAlert = true;
     }
   }
+
 }
