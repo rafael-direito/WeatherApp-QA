@@ -112,8 +112,8 @@ node{
            
             // Package the application
             sh "mvn clean package -Dmaven.test.skip"
-            def jar_file_name = sh (script: "ls target/*.jar", returnStdout: true)
-            def working_dir = sh (script: "pwd", returnStdout: true)
+            def jar_file_name = sh (script: "ls target/*.jar", returnStdout: true).trim()
+            def working_dir = sh (script: "pwd", returnStdout: true).trim()
 
             sshagent(credentials : ['atnog-cicd-classes.av.it.pt-ssh']) {
                 //sh 'ssh -o StrictHostKeyChecking=no user@hostname.com uptime'
