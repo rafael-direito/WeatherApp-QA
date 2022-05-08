@@ -36,7 +36,7 @@ public class TestCache
     
     // TESTS ------------------------------------------------------------------
     
-    /*
+
     @Test
     public void addCache() throws InterruptedException
     {    
@@ -131,7 +131,7 @@ public class TestCache
         assertEquals(30, mCache.getCleanUpTimeSeconds());
     }
 
-     */
+
     
  
     
