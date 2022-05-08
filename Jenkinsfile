@@ -120,9 +120,6 @@ node{
                 sh """ssh -o StrictHostKeyChecking=no jenkins@10.0.12.78 kill -9 `lsof -t -i:9005` ||  true"""
                 sh """ssh -o StrictHostKeyChecking=no jenkins@10.0.12.78 java -jar  -Dserver.port=9005 -Dserver.address=localhost ${jar_file_name}"""
             }
-         
-
         }
     }
-
 }
