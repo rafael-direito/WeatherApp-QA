@@ -41,7 +41,7 @@ node{
             }
 
             // Kill the application
-            sh "sudo kill -9 `sudo lsof -t -i:9001` || true"
+            //sh "sudo kill -9 `sudo lsof -t -i:9001` || true"
 
 
         }
