@@ -21,12 +21,12 @@ node{
         dir('rest_api') {
             // Deploy the application - we will use port 9001 for these tests
 
-            sh "sudo kill -9 `sudo lsof -t -i:9001` || true"
+            sh "kill -9 `lsof -t -i:9001` || true"
 
             sh "echo 'Updating the application s properties'"
             sh "echo 'server.port=9001' >  src/main/resources/application.properties"
             sh "echo 'Running the application on port 9001'"
-            sh "mvn spring-boot:run > /dev/null 2>\\&1 \\&"
+            sh "mvn install -DskipTests \\&"
 
             // Wait for the application to be ready (max timeout -> 2 min.)
             def count = 1
@@ -44,7 +44,7 @@ node{
             }
 
             // Kill the application
-            sh "sudo kill -9 `sudo lsof -t -i:9001` || true"
+            sh "kill -9 `lsof -t -i:9001` || true"
 
 
         }
