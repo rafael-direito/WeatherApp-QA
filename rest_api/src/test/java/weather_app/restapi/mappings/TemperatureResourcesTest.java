@@ -20,6 +20,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static weather_app.restapi.mappings.Constants.BASE_URL;
+
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -75,7 +77,7 @@ public class TemperatureResourcesTest {
         RestAssured
                 .given()
                 .when()
-                .get("http://localhost:8080/api/temperatures/day/Lisboa")
+                .get(BASE_URL + "/api/temperatures/day/Lisboa")
                     .then()
                 .statusCode(200)
                 .and()
@@ -89,7 +91,7 @@ public class TemperatureResourcesTest {
         Response  response =
                 RestAssured.given().
                         when().
-                        get("http://localhost:8080/api/temperatures/day/Lisboa").
+                        get(BASE_URL + "/api/temperatures/day/Lisboa").
                         then().
                         extract().response();
         
@@ -110,7 +112,7 @@ public class TemperatureResourcesTest {
         RestAssured
                 .given()
                 .when()
-                .get("http://localhost:8080/api/temperatures/hour/Lisboa")
+                .get(BASE_URL + "/api/temperatures/hour/Lisboa")
                     .then()
                 .statusCode(200)
                 .and()
@@ -124,7 +126,7 @@ public class TemperatureResourcesTest {
         Response  response =
                 RestAssured.given().
                         when().
-                        get("http://localhost:8080/api/temperatures/hour/Lisboa").
+                        get(BASE_URL + "/api/temperatures/hour/Lisboa").
                         then().
                         extract().response();
                 

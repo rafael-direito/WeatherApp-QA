@@ -21,6 +21,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static weather_app.restapi.mappings.Constants.BASE_URL;
+
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -74,7 +76,7 @@ public class HumidityResourcesTest {
         RestAssured
                 .given()
                 .when()
-                .get("http://localhost:8080/api/humidities/day/Lisboa")
+                .get(BASE_URL + "/api/humidities/day/Lisboa")
                     .then()
                 .statusCode(200)
                 .and()
@@ -88,7 +90,7 @@ public class HumidityResourcesTest {
         Response  response =
                 RestAssured.given().
                         when().
-                        get("http://localhost:8080/api/humidities/day/Lisboa").
+                        get(BASE_URL + "/api/humidities/day/Lisboa").
                         then().
                         extract().response();
         
@@ -106,7 +108,7 @@ public class HumidityResourcesTest {
         RestAssured
                 .given()
                 .when()
-                .get("http://localhost:8080/api/humidities/hour/Lisboa")
+                .get(BASE_URL + "/api/humidities/hour/Lisboa")
                     .then()
                 .statusCode(200)
                 .and()
@@ -120,7 +122,7 @@ public class HumidityResourcesTest {
         Response  response =
                 RestAssured.given().
                         when().
-                        get("http://localhost:8080/api/humidities/hour/Lisboa").
+                        get(BASE_URL + "/api/humidities/hour/Lisboa").
                         then().
                         extract().response();
                 

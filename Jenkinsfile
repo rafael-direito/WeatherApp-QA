@@ -54,6 +54,8 @@ node{
             // Update App Location + Run the Tests
             sh """echo 'package weather_app.restapi.mappings;public class Constants{public static final String BASE_URL = \"http://localhost:9001\";}' > src/test/java/weather_app/restapi/mappings/Constants.java"""
             sh "mvn -Dtest=ForecastsResourcesTest test"
+            sh "mvn -Dtest=HumidityResourcesTest test"
+            sh "mvn -Dtest=TemperatureResourcesTest test"
 
             // Kill the application
             sh "kill -9 `lsof -t -i:9001` || true"
