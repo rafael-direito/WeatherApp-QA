@@ -118,7 +118,6 @@ node{
             sshagent(credentials : ['atnog-cicd-classes.av.it.pt-ssh']) {
 
                 sh "scp -o StrictHostKeyChecking=no '${jar_file_location}' jenkins@10.0.12.78:~/"
-                sh "ssh -o StrictHostKeyChecking=no jenkins@10.0.12.78 kill -9 `lsof -t -i:9005` ||  true"
                 sh "ssh -o StrictHostKeyChecking=no jenkins@10.0.12.78  bash run_staging.sh '${jar_file_name}'"
             }
         }
