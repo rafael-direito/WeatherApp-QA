@@ -130,7 +130,7 @@ node{
         }
     }
 
-    stage('Wait for user to input text?') {
+    stage('Deploy to Production?') {
         def userInput = "No"
         try {
             timeout(time:10, unit:'SECONDS') {
@@ -144,17 +144,21 @@ node{
             echo "Won't proceed to production"
         }
 
-        println(userInput); //Use this value to branch to different logic if needed
-
-        dir('rest_api') {
-            // Package the application
-            def jar_file_location = sh (script: "ls target/*.jar", returnStdout: true).trim()
-            def jar_file_name = jar_file_location.split('/')[1]
-
-            sshagent(credentials : ['atnog-cicd-classes.av.it.pt-ssh']) {
-            //    sh "ssh -o StrictHostKeyChecking=no jenkins@10.0.12.78  bash run_WeatherApp-QA_production.sh '${jar_file_name}'"
-            }
+        println("User Input: " + userInput);
+        
+        if (userInput == "No") {
+            currentBuild.result = 'SUCCESS'
         }
+        else{
+            dir('rest_api') {
+                // Package the application
+                def jar_file_location = sh (script: "ls target/*.jar", returnStdout: true).trim()
+                def jar_file_name = jar_file_location.split('/')[1]
 
+                sshagent(credentials : ['atnog-cicd-classes.av.it.pt-ssh']) {
+                    sh "ssh -o StrictHostKeyChecking=no jenkins@10.0.12.78  bash run_WeatherApp-QA_production.sh '${jar_file_name}'"
+                }
+            }
+        }        
     }
 }
