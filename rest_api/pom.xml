@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     
-    <groupId>cloudplaces</groupId>
+    <groupId>weather_app_api</groupId>
     <artifactId>restapi</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>weather_app_api</name>
