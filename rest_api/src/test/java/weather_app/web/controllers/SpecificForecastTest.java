@@ -59,7 +59,7 @@ public class SpecificForecastTest {
             driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='ºC'])[1]/following::span[1]")).getText());
   */
   }
-     
+
   @After
   public void tearDown() throws Exception {
     driver.quit();

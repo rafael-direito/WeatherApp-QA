@@ -40,7 +40,7 @@ public class ConstantsTest {
     public void tearDown() {
     }
 
-    /*
+
     @Test
     public void testGetOpenWeatherForecast() {
         System.out.println("getOpenWeatherForecast");
@@ -111,6 +111,6 @@ public class ConstantsTest {
         assertEquals(expResult, result);
     }
     
-     */
+
     
 }

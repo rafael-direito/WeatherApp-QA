@@ -1,3 +1,4 @@
+package weather_app.constants;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -35,7 +36,7 @@ public class TestConverters
     public void tearDown() {}
     
     
-    /*
+
     @Test
     public void checkDateToString()
     {
@@ -94,5 +95,5 @@ public class TestConverters
         assertEquals("No information", converters.weatherToIpma("xxx"));
     }
     
-     */
+
 }
