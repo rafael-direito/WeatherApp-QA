@@ -2,14 +2,14 @@ node{
 
     git branch: "master", url: "https://github.com/rafael-direito/WeatherApp-QA" 
 
-    stage ('Unit Tests') {
-        dir('rest_api') {
-            sh "mvn -Dtest=TestCache test"
-            sh "mvn -Dtest=ConstantsTest test"
-            sh "mvn -Dtest=TestConverters test"
-            sh "mvn -Dtest=TestCalculations test"
-        }
-    }
+    //stage ('Unit Tests') {
+    //    dir('rest_api') {
+    //        sh "mvn -Dtest=TestCache test"
+    //        sh "mvn -Dtest=ConstantsTest test"
+    //        sh "mvn -Dtest=TestConverters test"
+    //        sh "mvn -Dtest=TestCalculations test"
+    //    }
+    //}
 
     stage ('Integration Tests - External Sources') {
         dir('rest_api') {
@@ -41,7 +41,7 @@ node{
             }
 
             // Kill the application
-            sh "sudo kill -9 $(sudo lsof -t -i:9001) || true"
+            sh "sudo kill -9 \$(sudo lsof -t -i:9001) || true"
 
 
         }
