@@ -131,10 +131,13 @@ node{
     }
 
     stage('Wait for user to input text?') {
-        def userInput = input(id: 'userInput', message: 'Merge to?',
-        parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
-            description:'describing choices', name:'nameChoice', choices: "QA\nUAT\nProduction\nDevelop\nMaster"]
-        ])
+        def userInput = "No"
+        timeout(time:10, unit:'SECONDS') {
+            userInput = input(id: 'userInput', message: 'Do you want to deploy this build to production?',
+            parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'No', 
+                description:'describing choices', name:'nameChoice', choices: "Yes (DANGEROUS!)\nNo"]
+            ])
+        }
 
         println(userInput); //Use this value to branch to different logic if needed
     }
