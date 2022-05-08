@@ -115,6 +115,14 @@ node{
             //def jar_file_name = sh (script: "ls target/*.jar", returnStdout: true)
             def jar_file_name = "target/weather-app-0.0.1-SNAPSHOT.jar"
 
+
+            def stageOneWorkSpace = "/path/test1"
+            def stageTwoWorkSpace = "/path/test2"
+
+            sh '''
+            echo ''' +stageOneWorkSpace+ '''
+            echo ''' +stageTwoWorkSpace+ '''
+            '''
             sshagent(credentials : ['atnog-cicd-classes.av.it.pt-ssh']) {
                 //sh 'ssh -o StrictHostKeyChecking=no user@hostname.com uptime'
                 //sh 'ssh -v user@hostname.com'
