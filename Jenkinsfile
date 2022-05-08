@@ -113,7 +113,7 @@ node{
             // Package the application
             sh "mvn clean package -Dmaven.test.skip"
             jar_file_name = sh (script: "ls target/*.jar", returnStdout: true)
-            sh """java -jar ${jar_file_name} --server.port=8083 --server.address=0.0.0.0 &"""
+            sh """java -jar  -Dserver.port=8083 -Dserver.address=0.0.0.0 ${jar_file_name} &"""
 
         }
     }
