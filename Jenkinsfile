@@ -24,7 +24,7 @@ node{
             sh "echo 'Updating the application s properties'"
             sh "echo 'server.port=9001' >  src/main/resources/application.properties"
             sh "echo 'Running the application on port 9001'"
-            sh "mvn spring-boot:run &&"
+            bash "mvn spring-boot:run &&"
 
             // Wait for the application to be ready (max timeout -> 2 min.)
             def count = 1
@@ -33,6 +33,7 @@ node{
                 echo "Checking if the application is running on localhost:9001 (try: $count)"
                 if (exec("curl -I http://localhost:9001").stdout.contains("application/json")) {
                     app_running = true
+                    echo "Application is running on localhost:9001"
                     break
                 }
                 echo "Sleeping for 10 seconds..."
