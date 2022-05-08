@@ -24,7 +24,7 @@ node{
             sh "echo 'Updating the application s properties'"
             sh "echo 'server.port=9001' >  src/main/resources/application.properties"
             sh "echo 'Running the application on port 9001'"
-            sh "screen -S app; mvn spring-boot:run "
+            sh 'mvn spring-boot:run \\&'
 
             // Wait for the application to be ready (max timeout -> 2 min.)
             def count = 1
