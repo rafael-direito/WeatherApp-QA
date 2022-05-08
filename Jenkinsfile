@@ -119,7 +119,7 @@ node{
                 //sh 'ssh -v user@hostname.com'
                 sh "ls"
                 sh "ls target/"
-                sh "scp -o StrictHostKeyChecking=no '${jar_file_name}' jenkins@10.0.12.78:~/"
+                sh "scp -o StrictHostKeyChecking=no ./'${jar_file_name}' jenkins@10.0.12.78:~/"
                 sh """ sh -o StrictHostKeyChecking=no jenkins@10.0.12.78 kill -9 `lsof -t -i:9005` ||  true"""
                 sh """ sh -o StrictHostKeyChecking=no jenkins@10.0.12.78 java -jar  -Dserver.port=9005 -Dserver.address=localhost ${jar_file_name}"""
             }
