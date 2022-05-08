@@ -133,7 +133,7 @@ node{
     stage('Deploy to Production?') {
         def userInput = "No"
         try {
-            timeout(time:10, unit:'SECONDS') {
+            timeout(time:120, unit:'SECONDS') {
                 userInput = input(id: 'userInput', message: 'Do you want to deploy this build to production?',
                 parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'No', 
                     description:'describing choices', name:'nameChoice', choices: "Yes (DANGEROUS!)\nNo"]
