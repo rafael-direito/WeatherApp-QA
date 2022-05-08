@@ -21,7 +21,7 @@ node{
         dir('rest_api') {
             // Deploy the application - we will use port 9001 for these tests
 
-            sh "echo 'Updating the application\'s properties'"
+            sh "echo 'Updating the application s properties'"
             sh "echo 'server.port=9001' >  src/main/resources/application.properties"
             sh "echo 'Running the application on port 9001'"
             sh "mvn spring-boot:run"
