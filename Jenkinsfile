@@ -132,13 +132,29 @@ node{
 
     stage('Wait for user to input text?') {
         def userInput = "No"
-        timeout(time:10, unit:'SECONDS') {
-            userInput = input(id: 'userInput', message: 'Do you want to deploy this build to production?',
-            parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'No', 
-                description:'describing choices', name:'nameChoice', choices: "Yes (DANGEROUS!)\nNo"]
-            ])
+        try {
+            timeout(time:10, unit:'SECONDS') {
+                userInput = input(id: 'userInput', message: 'Do you want to deploy this build to production?',
+                parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'No', 
+                    description:'describing choices', name:'nameChoice', choices: "Yes (DANGEROUS!)\nNo"]
+                ])
+            }
+        } catch(err) { // timeout reached or input Aborted
+            echo "Timeout reached or input Aborted"
+            echo "Won't proceed to production"
         }
 
         println(userInput); //Use this value to branch to different logic if needed
+
+        dir('rest_api') {
+            // Package the application
+            def jar_file_location = sh (script: "ls target/*.jar", returnStdout: true).trim()
+            def jar_file_name = jar_file_location.split('/')[1]
+
+            sshagent(credentials : ['atnog-cicd-classes.av.it.pt-ssh']) {
+            //    sh "ssh -o StrictHostKeyChecking=no jenkins@10.0.12.78  bash run_WeatherApp-QA_production.sh '${jar_file_name}'"
+            }
+        }
+
     }
 }
