@@ -31,10 +31,10 @@ node{
             def app_running = false
             while(count <= 12) {
                 echo "Checking if the application is running on localhost:9001 (try: $count)"
-                if (exec("curl -I http://localhost:9001").stdout.contains("application/json")) {
-                    app_running = true
-                    break
-                }
+                //if (exec("curl -I http://localhost:9001").stdout.contains("application/json")) {
+                //    app_running = true
+                //    break
+                //}
                 echo "Sleeping for 10 seconds..."
                 sleep(10)
                 count++
