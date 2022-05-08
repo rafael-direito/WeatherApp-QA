@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static weather_app.restapi.mappings.Constants.BASE_URL;
 
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -46,8 +47,6 @@ public class ForecastsResourcesTest {
     public ForecastsResourcesTest() {
     }
 
-    int port = 8080;
-
     @InjectMocks
     ForecastsResources forecastsResources = new ForecastsResources();
     @Mock
@@ -55,9 +54,6 @@ public class ForecastsResourcesTest {
     @Mock
     IpmaCalls ipmaCallsMockito = new IpmaCalls();
 
-
-    private String baseUrl = "http://localhost:" + port + "/api/";
-    
     @BeforeClass
     public static void setUpClass() {
     }
@@ -80,11 +76,10 @@ public class ForecastsResourcesTest {
     @Test
     public void testGeneralForecastStatusCode()
     {
-        System.out.println("HERE -> " + baseUrl);
         RestAssured
                 .given()
                 .when()
-                .get(baseUrl + "general_info/Aveiro/3")
+                .get(BASE_URL + "/api/general_info/Aveiro/3")
                     .then()
                 .statusCode(200)
                 .and()
@@ -97,7 +92,7 @@ public class ForecastsResourcesTest {
         Response  response =
                 RestAssured.given().
                         when().
-                        get(baseUrl + "general_info/Aveiro/3").then().
+                        get(BASE_URL + "/api/general_info/Aveiro/3").then().
                         extract().response();
         
 
@@ -121,7 +116,7 @@ public class ForecastsResourcesTest {
         RestAssured
                 .given()
                 .when()
-                .get(baseUrl + "specific_info/Lisboa/" + today)
+                .get(BASE_URL + "/api/specific_info/Lisboa/" + today)
                     .then()
                 .statusCode(200)
                 .and()
@@ -138,7 +133,7 @@ public class ForecastsResourcesTest {
         Response  response =
                 RestAssured.given().
                         when().
-                        get(baseUrl + "specific_info/Aveiro/" + today ).then().
+                        get(BASE_URL + "/api/specific_info/Aveiro/" + today ).then().
                         extract().response();
         
 
