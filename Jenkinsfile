@@ -21,10 +21,12 @@ node{
         dir('rest_api') {
             // Deploy the application - we will use port 9001 for these tests
 
+            sh "sudo kill -9 `sudo lsof -t -i:9001` || true"
+            
             sh "echo 'Updating the application s properties'"
             sh "echo 'server.port=9001' >  src/main/resources/application.properties"
             sh "echo 'Running the application on port 9001'"
-            sh "bash ; mvn spring-boot:run"
+            sh "bash ; mvn spring-boot:run \$"
 
             // Wait for the application to be ready (max timeout -> 2 min.)
             def count = 1
