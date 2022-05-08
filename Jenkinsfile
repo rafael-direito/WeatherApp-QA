@@ -9,11 +9,13 @@ node{
             sh "mvn -Dtest=TestConverters test"
             sh "mvn -Dtest=TestCalculations test"
         }
+    }
     
     stage ('Integration Tests - External Sources') {
         dir('rest_api') {
             sh "mvn -Dtest=IpmaCallsTest test"
         }
+    }
     
     stage ('Integration Tests - Internal Sources') {
         dir('rest_api') {
