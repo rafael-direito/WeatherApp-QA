@@ -3,32 +3,32 @@ node{
     git branch: "master", url: "https://github.com/rafael-direito/WeatherApp-QA" 
 
     
-    //stage('SonarQube analysis') {
-    //    dir('rest_api') {
-    //        withSonarQubeEnv('Sonar') {
-    //            sh "mvn sonar:sonar"
-    //        }
-    //    }
-    //}
-//
-    //stage("Did the build passed the Quality Gates?") {
-    //        waitForQualityGate abortPipeline: true
-    //}
-//
-    //stage ('Unit Tests') {
-    //    dir('rest_api') {
-    //        sh "mvn -Dtest=TestCache test"
-    //        sh "mvn -Dtest=ConstantsTest test"
-    //        sh "mvn -Dtest=TestConverters test"
-    //        sh "mvn -Dtest=TestCalculations test"
-    //    }
-    //}
-    //
-    //stage ('Integration Tests - External') {
-    //    dir('rest_api') {
-    //        sh "mvn -Dtest=IpmaCallsTest test"
-    //    }
-    //}
+    stage('SonarQube analysis') {
+        dir('rest_api') {
+            withSonarQubeEnv('Sonar') {
+                sh "mvn sonar:sonar"
+            }
+        }
+    }
+
+    stage("Did the build passed the Quality Gates?") {
+            waitForQualityGate abortPipeline: true
+    }
+
+    stage ('Unit Tests') {
+        dir('rest_api') {
+            sh "mvn -Dtest=TestCache test"
+            sh "mvn -Dtest=ConstantsTest test"
+            sh "mvn -Dtest=TestConverters test"
+            sh "mvn -Dtest=TestCalculations test"
+        }
+    }
+    
+    stage ('Integration Tests - External') {
+        dir('rest_api') {
+            sh "mvn -Dtest=IpmaCallsTest test"
+        }
+    }
     
     stage ('Deploy to Testing Environment') {
         dir('rest_api') {
@@ -46,47 +46,49 @@ node{
         }
     }
 
-    //stage ('Integration Tests - Internal') {
-    //    dir('rest_api') {
-    //       
-    //        // Wait for the application to be ready (max timeout -> 2 min.)
-    //        def count = 1
-    //        def app_running = false
-    //        while(count <= 12) {
-    //            echo "Checking if the application is running on10.0.12.78:9005 (try: $count)"
-    //            status = sh (script: "curl -I http://10.0.12.78:9005", returnStatus: true)
-    //            if (status == 0) {
-    //                app_running = true
-    //                echo "Application is running on 10.0.12.78:9005"
-    //                break
-    //            }
-    //            echo "Sleeping for 10 seconds..."
-    //            sleep(10)
-    //            count++
-    //        }
-//
-    //        // If the application is not running, fail the test
-    //        if (!app_running) {
-    //            echo "Application is not running on 10.0.12.78:9005"
-    //            error("Application is not running on 10.0.12.78:9005. Cannot continue with the tests.")
-//
-    //        }
-//
-    //        // Update App Location + Run the Tests
-    //        sh "echo 'package weather_app.restapi.mappings;public class Constants{public static final String BASE_URL = \"http://10.0.12.78:9005\";}' > src/test/java/weather_app/restapi/mappings/Constants.java"
-    //        sh "mvn clean test -Dtest=TemperatureResourcesTest"
-    //        sh "mvn clean test -Dtest=ForecastsResourcesTest test"
-    //        sh "mvn clean test -Dtest=HumidityResourcesTest test"
-    //        
-//
-    //        // Kill the application
-    //        sh "kill -9 `lsof -t -i:8081` || true"
-    //    }
-    //}
+    stage ('Integration Tests - Internal') {
+        dir('rest_api') {
+           
+            // Wait for the application to be ready (max timeout -> 2 min.)
+            def count = 1
+            def app_running = false
+            while(count <= 12) {
+                echo "Checking if the application is running on10.0.12.78:9005 (try: $count)"
+                status = sh (script: "curl -I http://10.0.12.78:9005", returnStatus: true)
+                if (status == 0) {
+                    app_running = true
+                    echo "Application is running on 10.0.12.78:9005"
+                    break
+                }
+                echo "Sleeping for 10 seconds..."
+                sleep(10)
+                count++
+            }
+
+            // If the application is not running, fail the test
+            if (!app_running) {
+                echo "Application is not running on 10.0.12.78:9005"
+                error("Application is not running on 10.0.12.78:9005. Cannot continue with the tests.")
+
+            }
+
+            // Update App Location + Run the Tests
+            sh "echo 'package weather_app.restapi.mappings;public class Constants{public static final String BASE_URL = \"http://10.0.12.78:9005\";}' > src/test/java/weather_app/restapi/mappings/Constants.java"
+            sh "mvn clean test -Dtest=TemperatureResourcesTest"
+            sh "mvn clean test -Dtest=ForecastsResourcesTest test"
+            sh "mvn clean test -Dtest=HumidityResourcesTest test"
+            
+
+            // Kill the application
+            sh "kill -9 `lsof -t -i:8081` || true"
+        }
+    }
 
     stage ('User Acceptance Tests') {
         dir('rest_api') {
            
+            def count = 1
+            def app_running = false
             while(count <= 12) {
                 echo "Checking if the application is running on 10.0.12.78:9005 (try: $count)"
                 status = sh (script: "curl -I http://10.0.12.78:9005", returnStatus: true)
