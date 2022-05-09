@@ -81,7 +81,7 @@ node{
             // Deploy the application - we will use port 9002 for these test
             sh "kill -9 `lsof -t -i:9002` || true"
 
-            sh "echo 'Updating the application s properties'"
+            sh "echo 'Updating the application s properties' "
             sh """echo 'server.port=9002' >  src/main/resources/application.properties"""
             sh "echo 'Running the application on port 9002'"
             sh """mvn spring-boot:run &"""
