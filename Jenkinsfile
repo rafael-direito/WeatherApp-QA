@@ -10,7 +10,7 @@ node{
             }
         }
     }
-    
+
     stage("Did the build passed the Quality Gates?") {
             waitForQualityGate abortPipeline: true
     }
@@ -24,13 +24,13 @@ node{
         }
     }
     
-    stage ('Integration Tests - External Sources') {
+    stage ('Integration Tests - External') {
         dir('rest_api') {
             sh "mvn -Dtest=IpmaCallsTest test"
         }
     }
     
-    stage ('Integration Tests - Internal Sources') {
+    stage ('Integration Tests - Internal') {
         dir('rest_api') {
            
             // Deploy the application - we will use port 9001 for these test
