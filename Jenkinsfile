@@ -3,32 +3,32 @@ node{
     git branch: "master", url: "https://github.com/rafael-direito/WeatherApp-QA" 
 
     
-    stage('SonarQube analysis') {
-        dir('rest_api') {
-            withSonarQubeEnv('Sonar') {
-                sh "mvn sonar:sonar"
-            }
-        }
-    }
-
-    stage("Did the build passed the Quality Gates?") {
-            waitForQualityGate abortPipeline: true
-    }
-
-    stage ('Unit Tests') {
-        dir('rest_api') {
-            sh "mvn -Dtest=TestCache test"
-            sh "mvn -Dtest=ConstantsTest test"
-            sh "mvn -Dtest=TestConverters test"
-            sh "mvn -Dtest=TestCalculations test"
-        }
-    }
-    
-    stage ('Integration Tests - External') {
-        dir('rest_api') {
-            sh "mvn -Dtest=IpmaCallsTest test"
-        }
-    }
+    //stage('SonarQube analysis') {
+    //    dir('rest_api') {
+    //        withSonarQubeEnv('Sonar') {
+    //            sh "mvn sonar:sonar"
+    //        }
+    //    }
+    //}
+//
+    //stage("Did the build passed the Quality Gates?") {
+    //        waitForQualityGate abortPipeline: true
+    //}
+//
+    //stage ('Unit Tests') {
+    //    dir('rest_api') {
+    //        sh "mvn -Dtest=TestCache test"
+    //        sh "mvn -Dtest=ConstantsTest test"
+    //        sh "mvn -Dtest=TestConverters test"
+    //        sh "mvn -Dtest=TestCalculations test"
+    //    }
+    //}
+    //
+    //stage ('Integration Tests - External') {
+    //    dir('rest_api') {
+    //        sh "mvn -Dtest=IpmaCallsTest test"
+    //    }
+    //}
     
     stage ('Integration Tests - Internal') {
         dir('rest_api') {
@@ -121,51 +121,51 @@ node{
 
     
     
-    stage ('Deploy to Staging') {
-        dir('rest_api') {
-           
-            // Package the application
-            sh "mvn clean package -Dmaven.test.skip"
-            def jar_file_location = sh (script: "ls target/*.jar", returnStdout: true).trim()
-            def jar_file_name = jar_file_location.split('/')[1]
-
-            sshagent(credentials : ['atnog-cicd-classes.av.it.pt-ssh']) {
-
-                sh "scp -o StrictHostKeyChecking=no '${jar_file_location}' jenkins@10.0.12.78:~/"
-                sh "ssh -o StrictHostKeyChecking=no jenkins@10.0.12.78  bash run_WeatherApp-QA_staging.sh '${jar_file_name}'"
-            }
-        }
-    }
-
-    stage('Deploy to Production?') {
-        def userInput = "No"
-        try {
-            timeout(time:120, unit:'SECONDS') {
-                userInput = input(id: 'userInput', message: 'Do you want to deploy this build to production?',
-                parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'No', 
-                    description:'describing choices', name:'nameChoice', choices: "Yes (DANGEROUS!)\nNo"]
-                ])
-            }
-        } catch(err) { // timeout reached or input Aborted
-            echo "Timeout reached or input Aborted"
-            echo "Won't proceed to production"
-        }
-
-        println("User Input: " + userInput);
-        
-        if (userInput == "No") {
-            currentBuild.result = 'SUCCESS'
-        }
-        else{
-            dir('rest_api') {
-                // Package the application
-                def jar_file_location = sh (script: "ls target/*.jar", returnStdout: true).trim()
-                def jar_file_name = jar_file_location.split('/')[1]
-
-                sshagent(credentials : ['atnog-cicd-classes.av.it.pt-ssh']) {
-                    sh "ssh -o StrictHostKeyChecking=no jenkins@10.0.12.78  bash run_WeatherApp-QA_production.sh '${jar_file_name}'"
-                }
-            }
-        }        
-    }
+    //stage ('Deploy to Staging') {
+    //    dir('rest_api') {
+    //       
+    //        // Package the application
+    //        sh "mvn clean package -Dmaven.test.skip"
+    //        def jar_file_location = sh (script: "ls target/*.jar", returnStdout: true).trim()
+    //        def jar_file_name = jar_file_location.split('/')[1]
+//
+    //        sshagent(credentials : ['atnog-cicd-classes.av.it.pt-ssh']) {
+//
+    //            sh "scp -o StrictHostKeyChecking=no '${jar_file_location}' jenkins@10.0.12.78:~/"
+    //            sh "ssh -o StrictHostKeyChecking=no jenkins@10.0.12.78  bash run_WeatherApp-QA_staging.sh '${jar_file_name}'"
+    //        }
+    //    }
+    //}
+//
+    //stage('Deploy to Production?') {
+    //    def userInput = "No"
+    //    try {
+    //        timeout(time:120, unit:'SECONDS') {
+    //            userInput = input(id: 'userInput', message: 'Do you want to deploy this build to production?',
+    //            parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'No', 
+    //                description:'describing choices', name:'nameChoice', choices: "Yes (DANGEROUS!)\nNo"]
+    //            ])
+    //        }
+    //    } catch(err) { // timeout reached or input Aborted
+    //        echo "Timeout reached or input Aborted"
+    //        echo "Won't proceed to production"
+    //    }
+//
+    //    println("User Input: " + userInput);
+    //    
+    //    if (userInput == "No") {
+    //        currentBuild.result = 'SUCCESS'
+    //    }
+    //    else{
+    //        dir('rest_api') {
+    //            // Package the application
+    //            def jar_file_location = sh (script: "ls target/*.jar", returnStdout: true).trim()
+    //            def jar_file_name = jar_file_location.split('/')[1]
+//
+    //            sshagent(credentials : ['atnog-cicd-classes.av.it.pt-ssh']) {
+    //                sh "ssh -o StrictHostKeyChecking=no jenkins@10.0.12.78  bash run_WeatherApp-QA_production.sh '${jar_file_name}'"
+    //            }
+    //        }
+    //    }        
+    //}
 }
