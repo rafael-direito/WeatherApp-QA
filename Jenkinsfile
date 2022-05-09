@@ -54,7 +54,7 @@ node{
                         break
                     }
                 }
-                else{
+                catch (err){
                     echo "Sleeping for 10 seconds..."
                     sleep(10)
                     count++
