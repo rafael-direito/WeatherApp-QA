@@ -46,23 +46,16 @@ node{
             def app_running = false
             while(count <= 12) {
                 echo "Checking if the application is running on localhost:8081 (try: $count)"
-                try {
-                    def status = sh (script: "curl -I http://localhost:8081/api", returnStdout: true)
-                    if (status.contains("200")) {
-                        app_running = true
-                        echo "Application is running on localhost:8081"
-                        break
-                    }
+                status = sh (script: "curl -I http://localhost:8081", returnStatus: true)
+                if (status == 0) {
+                    app_running = true
+                    echo "Application is running on localhost:8081"
+                    break
                 }
-                catch (err){
-                    echo "Sleeping for 10 seconds..."
-                    sleep(10)
-                    count++
-                }
-                
+                echo "Sleeping for 10 seconds..."
+                sleep(10)
+                count++
             }
-            
-            sleep(120)
 
             // If the application is not running, fail the test
             if (!app_running) {
@@ -72,10 +65,11 @@ node{
             }
 
             // Update App Location + Run the Tests
+            sleep(30)
             sh "echo 'package weather_app.restapi.mappings;public class Constants{public static final String BASE_URL = \"http://localhost:8081\";}' > src/test/java/weather_app/restapi/mappings/Constants.java"
             sh "mvn clean test -Dtest=TemperatureResourcesTest"
-            //sh "mvn clean test -Dtest=ForecastsResourcesTest test"
-            //sh "mvn clean test -Dtest=HumidityResourcesTest test"
+            sh "mvn clean test -Dtest=ForecastsResourcesTest test"
+            sh "mvn clean test -Dtest=HumidityResourcesTest test"
             
 
             // Kill the application
@@ -117,7 +111,7 @@ node{
                 error("Application is not running on localhost:8081. Cannot continue with the tests.")
 
             }
-            
+        
             // Update App Location + Run the Tests
             sh """echo 'package weather_app.web.controllers;public class Constants{public static final String BASE_URL = \"http://localhost:8081\";}' > src/test/java/weather_app/web/controllers/Constants.java"""
             sh "mvn -Dtest=GeneralForecastTest test"
