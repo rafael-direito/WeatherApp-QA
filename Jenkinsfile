@@ -77,10 +77,6 @@ node{
             sh "mvn clean test -Dtest=TemperatureResourcesTest"
             sh "mvn clean test -Dtest=ForecastsResourcesTest test"
             sh "mvn clean test -Dtest=HumidityResourcesTest test"
-            
-
-            // Kill the application
-            sh "kill -9 `lsof -t -i:8081` || true"
         }
     }
 
