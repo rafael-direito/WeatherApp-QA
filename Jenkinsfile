@@ -39,6 +39,7 @@ node{
             sh "echo 'Updating the application s properties'"
             sh """echo 'server.port=9002' >  src/main/resources/application.properties"""
             sh "echo 'Running the application on port 9002'"
+            sh "mvn clean package -Dmaven.test.skip"
             sh """mvn spring-boot:run &"""
 
             // Wait for the application to be ready (max timeout -> 2 min.)
