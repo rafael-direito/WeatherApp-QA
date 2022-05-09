@@ -47,11 +47,11 @@ node{
             while(count <= 12) {
                 echo "Checking if the application is running on localhost:8081 (try: $count)"
                 def status = sh (script: "curl -I http://localhost:8081/api", returnStdout: true)
-                if (status.contains("200")) {
-                    app_running = true
-                    echo "Application is running on localhost:8081"
-                    break
-                }
+                //if (status.contains("200")) {
+                //    app_running = true
+                //    echo "Application is running on localhost:8081"
+                //    break
+                //}
                 echo "Sleeping for 10 seconds..."
                 sleep(10)
                 count++
