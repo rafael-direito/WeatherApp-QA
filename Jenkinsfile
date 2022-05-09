@@ -131,7 +131,7 @@ node{
         dir('rest_api') {
            
             // Package the application
-            sh "mvn clean package -Dmaven.test.skip "
+            sh "mvn clean package -Dmaven.test.skip"
             def jar_file_location = sh (script: "ls target/*.jar", returnStdout: true).trim()
             def jar_file_name = jar_file_location.split('/')[1]
 
