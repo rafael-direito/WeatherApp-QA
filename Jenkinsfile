@@ -37,7 +37,7 @@ node{
             sh "kill -9 `lsof -t -i:9002` || true"
 
             sh "echo 'Updating the application s properties'"
-            sh """echo 'server.port=9002' >  src/main/resources/application.properties"""
+            sh "echo 'server.port=9002' >  src/main/resources/application.properties"
             sh "echo 'Running the application on port 9002'"
             sh "mvn clean package -Dmaven.test.skip"
             sh """mvn spring-boot:run &"""
