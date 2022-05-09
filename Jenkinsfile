@@ -33,23 +33,23 @@ node{
     stage ('Integration Tests - Internal') {
         dir('rest_api') {
            
-            // Deploy the application - we will use port 8081 for these test
-            sh "kill -9 `lsof -t -i:8081` || true"
+            // Deploy the application - we will use port 9002 for these test
+            sh "kill -9 `lsof -t -i:9002` || true"
 
             sh "echo 'Updating the application s properties'"
-            sh """echo 'server.port=8081' >  src/main/resources/application.properties"""
-            sh "echo 'Running the application on port 8081'"
+            sh """echo 'server.port=9002' >  src/main/resources/application.properties"""
+            sh "echo 'Running the application on port 9002'"
             sh """mvn spring-boot:run &"""
 
             // Wait for the application to be ready (max timeout -> 2 min.)
             def count = 1
             def app_running = false
             while(count <= 12) {
-                echo "Checking if the application is running on localhost:8081 (try: $count)"
-                status = sh (script: "curl -I http://localhost:8081", returnStatus: true)
+                echo "Checking if the application is running on localhost:9002 (try: $count)"
+                status = sh (script: "curl -I http://localhost:9002", returnStatus: true)
                 if (status == 0) {
                     app_running = true
-                    echo "Application is running on localhost:8081"
+                    echo "Application is running on localhost:9002"
                     break
                 }
                 echo "Sleeping for 10 seconds..."
@@ -59,42 +59,42 @@ node{
 
             // If the application is not running, fail the test
             if (!app_running) {
-                echo "Application is not running on localhost:8081"
-                error("Application is not running on localhost:8081. Cannot continue with the tests.")
+                echo "Application is not running on localhost:9002"
+                error("Application is not running on localhost:9002. Cannot continue with the tests.")
 
             }
 
             // Update App Location + Run the Tests
-            sh "echo 'package weather_app.restapi.mappings;public class Constants{public static final String BASE_URL = \"http://localhost:8081\";}' > src/test/java/weather_app/restapi/mappings/Constants.java"
-            sh "mvn -Dtest=ForecastsResourcesTest test"
-            sh "mvn -Dtest=HumidityResourcesTest test"
-            sh "mvn -Dtest=TemperatureResourcesTest test"
+            sh "echo 'package weather_app.restapi.mappings;public class Constants{public static final String BASE_URL = \"http://localhost:9002\";}' > src/test/java/weather_app/restapi/mappings/Constants.java"
+            sh "mvn clean test -Dtest=ForecastsResourcesTest test"
+            sh "mvn clean test -Dtest=HumidityResourcesTest test"
+            sh "mvn clean test -Dtest=TemperatureResourcesTest"
 
             // Kill the application
-            sh "kill -9 `lsof -t -i:8081` || true"
+            sh "kill -9 `lsof -t -i:9002` || true"
         }
     }
 //
     //stage ('User Acceptance Tests') {
     //    dir('rest_api') {
     //       
-    //        // Deploy the application - we will use port 8081 for these test
-    //        sh "kill -9 `lsof -t -i:8081` || true"
+    //        // Deploy the application - we will use port 9002 for these test
+    //        sh "kill -9 `lsof -t -i:9002` || true"
 //
     //        sh "echo 'Updating the application s properties' "
-    //        sh """echo 'server.port=8081' >  src/main/resources/application.properties"""
-    //        sh "echo 'Running the application on port 8081'"
+    //        sh """echo 'server.port=9002' >  src/main/resources/application.properties"""
+    //        sh "echo 'Running the application on port 9002'"
     //        sh """mvn spring-boot:run &"""
 //
     //        // Wait for the application to be ready (max timeout -> 2 min.)
     //        def count = 1
     //        def app_running = false
     //        while(count <= 12) {
-    //            echo "Checking if the application is running on localhost:8081 (try: $count)"
-    //            status = sh (script: "curl -I http://localhost:8081", returnStatus: true)
+    //            echo "Checking if the application is running on localhost:9002 (try: $count)"
+    //            status = sh (script: "curl -I http://localhost:9002", returnStatus: true)
     //            if (status == 0) {
     //                app_running = true
-    //                echo "Application is running on localhost:8081"
+    //                echo "Application is running on localhost:9002"
     //                break
     //            }
     //            echo "Sleeping for 10 seconds..."
@@ -104,18 +104,18 @@ node{
 //
     //        // If the application is not running, fail the test
     //        if (!app_running) {
-    //            echo "Application is not running on localhost:8081"
-    //            error("Application is not running on localhost:8081. Cannot continue with the tests.")
+    //            echo "Application is not running on localhost:9002"
+    //            error("Application is not running on localhost:9002. Cannot continue with the tests.")
 //
     //        }
 //
     //        // Update App Location + Run the Tests
-    //        sh """echo 'package weather_app.web.controllers;public class Constants{public static final String BASE_URL = \"http://localhost:8081\";}' > src/test/java/weather_app/web/controllers/Constants.java"""
+    //        sh """echo 'package weather_app.web.controllers;public class Constants{public static final String BASE_URL = \"http://localhost:9002\";}' > src/test/java/weather_app/web/controllers/Constants.java"""
     //        sh "mvn -Dtest=GeneralForecastTest test"
 //
 //
     //        // Kill the application
-    //        sh "kill -9 `lsof -t -i:8081` || true"
+    //        sh "kill -9 `lsof -t -i:9002` || true"
     //    }
     //}
 
