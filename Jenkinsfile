@@ -116,8 +116,7 @@ node{
     stage('SonarQube analysis') {
         dir('rest_api') {
             withSonarQubeEnv('Sonar') {
-                sh "mvn  clean install  -Dmaven.test.skip"
-            
+                sh "mvn sonar:sonar"
             }
         }
     }
