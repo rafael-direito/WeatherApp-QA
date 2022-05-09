@@ -68,8 +68,8 @@ node{
             // Update App Location + Run the Tests
             sh "echo 'package weather_app.restapi.mappings;public class Constants{public static final String BASE_URL = \"http://localhost:9002\";}' > src/test/java/weather_app/restapi/mappings/Constants.java"
             sh "mvn clean test -Dtest=TemperatureResourcesTest"
-            sh "mvn clean test -Dtest=ForecastsResourcesTest test"
-            sh "mvn clean test -Dtest=HumidityResourcesTest test"
+            //sh "mvn clean test -Dtest=ForecastsResourcesTest test"
+            //sh "mvn clean test -Dtest=HumidityResourcesTest test"
             
 
             // Kill the application
