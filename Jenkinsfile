@@ -152,7 +152,7 @@ node{
             echo "Won't proceed to production"
         }
 
-        println("User Input: " + userInput);
+        println("Do you want to deploy this build to production? > " + userInput);
         
         if (userInput == "No") {
             currentBuild.result = 'SUCCESS'
