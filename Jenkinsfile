@@ -50,6 +50,7 @@ node{
                 if (status == 0) {
                     app_running = true
                     echo "Application is running on localhost:8081"
+                    sleep(10)
                     break
                 }
                 echo "Sleeping for 10 seconds..."
@@ -66,8 +67,8 @@ node{
 
             // Update App Location + Run the Tests
             sh "echo 'package weather_app.restapi.mappings;public class Constants{public static final String BASE_URL = \"http://localhost:8081\";}' > src/test/java/weather_app/restapi/mappings/Constants.java"
-            //sh "mvn clean test -Dtest=TemperatureResourcesTest"
-            //sh "mvn clean test -Dtest=ForecastsResourcesTest test"
+            sh "mvn clean test -Dtest=TemperatureResourcesTest"
+            sh "mvn clean test -Dtest=ForecastsResourcesTest test"
             //sh "mvn clean test -Dtest=HumidityResourcesTest test"
             
 
