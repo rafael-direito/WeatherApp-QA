@@ -35,7 +35,14 @@ public class ForecastsResources
     private MCache mCache;
     private Constants constants = new Constants();
     private OpenWeatherCalls openWeatherCalls = new OpenWeatherCalls();
-    
+
+    @ApiOperation("Returns true")
+    @GetMapping("api")
+    public  boolean api()
+    {
+        return true;
+    }
+
     @ApiOperation("Returns a list of forecasts, regarding each day")
     @GetMapping("api/general_info/{city}/{num_days}")
     public  Map<String, Map<String, String>> generalInfo(
