@@ -122,9 +122,7 @@ node{
         }
     }
     stage("Quality gate") {
-        steps {
             waitForQualityGate abortPipeline: true
-        }
     }
     
     stage ('Deploy to Staging') {
