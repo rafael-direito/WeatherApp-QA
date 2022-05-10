@@ -6,3 +6,5 @@ Includes unit tests, functional tests, integration tests and mocking.
 
 Uses: JUnit4, Mockito, EasyMock, REST_assured, Selenium
 test
+
+
