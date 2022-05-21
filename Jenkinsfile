@@ -1,7 +1,7 @@
 node{
 
     git branch: "master", url: "https://github.com/rafael-direito/WeatherApp-QA" 
-
+    
     
     stage('SonarQube analysis') {
         dir('rest_api') {
