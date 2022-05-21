@@ -41,8 +41,8 @@ public class GeneralForecastTest {
     new Select(driver.findElement(By.id("inlineFormCustomSelectPref"))).selectByVisibleText("Three");
     driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Number of days'])[1]/following::button[1]")).click();
     assertEquals("Coimbra", driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Search'])[1]/following::h1[1]")).getText());
-    assert(Double.parseDouble(driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Tuesday'])[1]/following::span[2]")).getText()) > -50 );
-    assert(Double.parseDouble(driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Tuesday'])[1]/following::span[3]")).getText()) < 100);
+    assert(Double.parseDouble(driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Coimbra'])[1]/following::span[2]")).getText()) > -50 );
+    assert(Double.parseDouble(driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Coimbra'])[1]/following::span[3]")).getText()) < 100);
   }
 
   @After
